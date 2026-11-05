@@ -100,14 +100,16 @@ export const checkItems = [
   "First conversation received",
 ];
 
-/** Channel add-ons; prices come from the visitor's currency in currency.ts. */
 export const addons = [
-  { name: "WhatsApp Bot", all: false },
-  { name: "Instagram DM Bot", all: false },
-  { name: "Messenger Bot", all: false },
-  { name: "All three", all: true, featured: true },
+  { name: "WhatsApp Bot", price: "+PKR 300/mo" },
+  { name: "Instagram DM Bot", price: "+PKR 300/mo" },
+  { name: "Messenger Bot", price: "+PKR 300/mo" },
+  { name: "All three", price: "+PKR 700/mo", featured: true },
 ];
 
 export const reassure = ["No setup cost.", "Start free.", "Upgrade later.", "Cancel anytime.", "14-day money back."];
 
+export function pkr(n: number) {
+  return "PKR " + Math.round(n).toLocaleString("en-US");
+}
 

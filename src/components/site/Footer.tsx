@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { footer } from "@/content/site";
 import { LogoMark } from "@/components/ui";
-import { CurrencyNote } from "./CurrencyNote";
 
 export function Footer() {
   return (
@@ -50,7 +49,7 @@ export function Footer() {
           </Link>
         </span>
         <span className="flex flex-wrap items-center gap-[18px]">
-          <CurrencyNote />
+          <span>PRICES IN PKR · INCLUSIVE OF TAXES</span>
           <label className="inline-flex items-center gap-1.5 rounded-full border border-paper/18 py-1 pr-1.5 pl-3">
             <span aria-hidden>🌐</span>
             <select

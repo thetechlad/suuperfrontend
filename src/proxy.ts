@@ -19,6 +19,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Pages only: skip Next.js internals, API routes and any path with a file extension (images, robots.txt, sitemap.xml…).
-  matcher: ["/((?!_next/|api/|.*\\..*).*)"],
+  // Pages only: skip Next.js internals and any path with a file extension (images, robots.txt, sitemap.xml…).
+  matcher: ["/((?!_next/|.*\\..*).*)"],
 };

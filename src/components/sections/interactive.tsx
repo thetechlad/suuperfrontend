@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { addons, builtSteps, demoQA, reassure } from "@/content/demo";
-import { currencies, currencyCodes, formatMoney, isCurrencyCode } from "@/content/currency";
-import { billingCycles, enterpriseItems, plans, popularPlan } from "@/content/site";
-import { setCurrency, useCurrency } from "@/components/useCurrency";
+import { addons, builtSteps, demoQA, pkr, reassure } from "@/content/demo";
+import { billingCycles, enterpriseItems, payMethods, plans, popularPlan } from "@/content/site";
 import type {
   BuilderSection,
   ConnectorSection,
@@ -21,28 +19,21 @@ import { HeroBackdrop } from "./Hero";
 import { useAskThread } from "@/components/useAskThread";
 import { type Band, Wrap } from "./static";
 
-/** The ROI calculator compares against the Starter plan in the visitor's currency. */
+const SUUPER_COST = 500;
 /** Share of recovered conversations assumed to convert into a sale. */
 const CONVERSION = 0.35;
 
 export function Roi({ s, band }: { s: RoiSection; band: Band }) {
   const [msgs, setMsgs] = useState(600);
-  const { code, ready } = useCurrency();
-  const cur = currencies[code];
-  // Average order value is kept per currency, so switching currency starts from a sensible amount.
-  const [aovBy, setAovBy] = useState<Partial<Record<string, number>>>({});
-  const aov = aovBy[code] ?? cur.roi.aov;
-  const setAov = (v: number) => setAovBy((m) => ({ ...m, [code]: v }));
+  const [aov, setAov] = useState(4500);
   const [miss, setMiss] = useState(25);
-  const money = (n: number) => formatMoney(n, code);
-  const suuperCost = cur.plans.Starter;
 
   const recoveredLeads = (msgs * miss) / 100;
   const recoveredValue = recoveredLeads * CONVERSION * aov;
 
   const sliders = [
     { label: "MESSAGES PER MONTH", display: msgs.toLocaleString("en-US"), min: 50, max: 3000, step: 50, value: msgs, set: setMsgs },
-    { label: "AVERAGE ORDER VALUE", display: money(aov), min: cur.roi.min, max: cur.roi.max, step: cur.roi.step, value: aov, set: setAov },
+    { label: "AVERAGE ORDER VALUE", display: pkr(aov), min: 500, max: 50000, step: 500, value: aov, set: setAov },
     { label: "MISSED OR LATE REPLIES", display: miss + "%", min: 5, max: 60, step: 1, value: miss, set: setMiss },
   ];
 
@@ -55,7 +46,7 @@ export function Roi({ s, band }: { s: RoiSection; band: Band }) {
         </SectionTitle>
         <p className="mx-auto mt-4 max-w-[36em] text-[16.5px] leading-[1.55] text-paper/60">{s.sub}</p>
       </div>
-      <div className={cx("mt-10 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-3 transition-opacity", !ready && "opacity-0")}>
+      <div className="mt-10 grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-3">
         <div className="card flex flex-col gap-7 p-[34px]">
           {sliders.map((sl) => (
             <label key={sl.label} className="block">
@@ -78,7 +69,7 @@ export function Roi({ s, band }: { s: RoiSection; band: Band }) {
         <div className="rounded-[22px] p-[34px] teal-dots-sm" aria-live="polite">
           <span className="font-mono text-[11px] tracking-[.14em]">RECOVERABLE REVENUE / MONTH</span>
           <p className="mt-3.5 font-mono text-[clamp(36px,5vw,60px)] font-bold tracking-[-.03em] tabular-nums">
-            {money(recoveredValue)}
+            {pkr(recoveredValue)}
           </p>
           <div className="my-6 h-px bg-ink/20" />
           <div className="flex flex-col gap-3 text-[15px]">
@@ -86,10 +77,10 @@ export function Roi({ s, band }: { s: RoiSection; band: Band }) {
               Leads recovered <span className="font-mono">{Math.round(recoveredLeads * CONVERSION)} / month</span>
             </p>
             <p className="flex justify-between">
-              Suuper cost <span className="font-mono">{money(suuperCost)}</span>
+              Suuper cost <span className="font-mono">{pkr(SUUPER_COST)}</span>
             </p>
             <p className="flex justify-between">
-              Return on spend <span className="font-mono font-bold">{Math.round(recoveredValue / suuperCost)}x</span>
+              Return on spend <span className="font-mono font-bold">{Math.round(recoveredValue / SUUPER_COST)}x</span>
             </p>
           </div>
           <Link
@@ -374,11 +365,6 @@ export function Pricing({ s }: { s: PricingSection }) {
   const [details, setDetails] = useState(true);
   const { parts, ends } = useOfferCountdown();
   const disc = billingCycles.find((c) => c.key === cycle)!.discount;
-  const { code, ready } = useCurrency();
-  const cur = currencies[code];
-  const money = (n: number) => formatMoney(n, code);
-  // Prices are only known in the browser; keep them invisible until then to avoid a currency flash.
-  const priceCls = cx("transition-opacity", !ready && "opacity-0");
 
   return (
     <>
@@ -441,25 +427,9 @@ export function Pricing({ s }: { s: PricingSection }) {
                 </button>
               ))}
             </div>
-            <div className="flex flex-wrap items-center gap-5">
-              <label className="flex items-center gap-2.5 text-[14.5px] text-paper/80">
-                <span className="font-mono text-[11px] tracking-[.12em] text-paper/55">CURRENCY</span>
-                <select
-                  value={code}
-                  onChange={(e) => isCurrencyCode(e.target.value) && setCurrency(e.target.value)}
-                  className="rounded-full border border-paper/20 bg-panel px-3.5 py-2 font-mono text-sm text-paper outline-none focus:border-teal"
-                >
-                  {currencyCodes.map((c) => (
-                    <option key={c} value={c}>
-                      {currencies[c].label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <a href="#enterprise" className="flex items-center gap-2 text-[14.5px] text-paper/80 hover:text-teal">
-                Looking for Enterprise? <span className="text-teal">→</span>
-              </a>
-            </div>
+            <a href="#enterprise" className="flex items-center gap-2 text-[14.5px] text-paper/80 hover:text-teal">
+              Looking for Enterprise? <span className="text-teal">→</span>
+            </a>
           </div>
         </div>
       </section>
@@ -472,14 +442,13 @@ export function Pricing({ s }: { s: PricingSection }) {
               const agency = p.name === "Agency" && !pop;
               const hl = pop || agency;
               const ribbon = pop ? "★ MOST POPULAR" : p.ribbon;
-              const list = cur.plans[p.name] ?? 0;
-              const monthly = list * (1 - disc);
+              const monthly = p.n * (1 - disc);
               const billed =
                 cycle === "monthly"
                   ? "BILLED MONTHLY"
                   : cycle === "quarterly"
-                    ? `BILLED ${money(monthly * 3)} QUARTERLY`
-                    : `BILLED ${money(monthly * 12)} YEARLY`;
+                    ? `BILLED ${pkr(monthly * 3)} QUARTERLY`
+                    : `BILLED ${pkr(monthly * 12)} YEARLY`;
               return (
                 <div
                   key={p.name}
@@ -507,12 +476,12 @@ export function Pricing({ s }: { s: PricingSection }) {
                       )}
                     </div>
                     <p className="mt-1.5 text-[13.5px] leading-[1.45] opacity-65">{p.desc}</p>
-                    {disc > 0 && <p className={cx("mt-[18px] font-mono text-sm line-through opacity-45", !ready && "opacity-0!")}>{money(list)}</p>}
-                    <p className={cx("flex items-baseline gap-1.5 whitespace-nowrap", disc > 0 ? "mt-1" : "mt-[18px]", priceCls)}>
-                      <span className="font-mono text-[clamp(22px,2.2vw,28px)] font-bold tracking-[-.02em]">{money(monthly)}</span>
+                    {disc > 0 && <p className="mt-[18px] font-mono text-sm line-through opacity-45">{pkr(p.n)}</p>}
+                    <p className={cx("flex items-baseline gap-1.5 whitespace-nowrap", disc > 0 ? "mt-1" : "mt-[18px]")}>
+                      <span className="font-mono text-[clamp(22px,2.2vw,28px)] font-bold tracking-[-.02em]">{pkr(monthly)}</span>
                       <span className="text-[13px] opacity-60">/month</span>
                     </p>
-                    <p className={cx("mt-1.5 font-mono text-[10.5px] tracking-[.1em] opacity-55", !ready && "opacity-0!")}>{billed}</p>
+                    <p className="mt-1.5 font-mono text-[10.5px] tracking-[.1em] opacity-55">{billed}</p>
                     <div
                       className={cx(
                         "mt-5 rounded-[14px] border px-4 py-3.5",
@@ -570,7 +539,7 @@ export function Pricing({ s }: { s: PricingSection }) {
           <div className="mt-4 flex flex-wrap items-center justify-between gap-4 rounded-[22px] border border-paper/10 bg-card px-6 py-5">
             <div className="flex flex-wrap items-center gap-4">
               <span className="font-display text-xl font-bold">Free</span>
-              <span className={cx("font-mono text-sm", priceCls)}>{money(0)} · forever</span>
+              <span className="font-mono text-sm">PKR 0 · forever</span>
               <span className="text-sm text-paper/60">200 AI replies/mo · Website widget · No card needed</span>
             </div>
             <Link href="/signup" className="rounded-full border border-paper/30 px-5 py-[11px] text-sm font-semibold hover:border-teal">
@@ -623,7 +592,7 @@ export function Pricing({ s }: { s: PricingSection }) {
                   )}
                 >
                   <p className="text-[15px] font-semibold">{a.name}</p>
-                  <p className={cx("mt-1.5 font-mono text-sm", priceCls)}>+{money(a.all ? cur.addonAll : cur.addon)}/mo</p>
+                  <p className="mt-1.5 font-mono text-sm">{a.price}</p>
                 </div>
               ))}
             </div>
@@ -632,7 +601,7 @@ export function Pricing({ s }: { s: PricingSection }) {
           <div className="flex flex-col items-center gap-4 pt-12 pb-2">
             <p className="font-mono text-[11px] tracking-[.14em] text-paper/50">PAY SAFELY AND SECURELY WITH</p>
             <ul className="flex flex-wrap justify-center gap-2.5">
-              {cur.payMethods.map((pm) => (
+              {payMethods.map((pm) => (
                 <li
                   key={pm}
                   className="rounded-[10px] border border-paper/14 bg-panel px-4 py-[9px] font-display text-sm font-semibold text-paper/85"
