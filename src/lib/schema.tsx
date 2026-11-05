@@ -1,3 +1,4 @@
+import { currencies, currencyCodes } from "@/content/currency";
 import { articles, getPage, plans } from "@/content/site";
 import { SITE_URL } from "@/lib/routes";
 
@@ -22,14 +23,16 @@ const software: Schema = {
   description:
     "AI that answers your customers on your website, WhatsApp, Instagram and Messenger, books appointments and captures leads.",
   publisher: { "@id": SITE_URL + "/#org" },
-  offers: plans.map((p) => ({
-    "@type": "Offer",
-    name: p.name,
-    description: p.desc,
-    price: p.n,
-    priceCurrency: "PKR",
-    url: SITE_URL + "/pricing",
-  })),
+  offers: currencyCodes.flatMap((code) =>
+    plans.map((p) => ({
+      "@type": "Offer",
+      name: p.name,
+      description: p.desc,
+      price: currencies[code].plans[p.name],
+      priceCurrency: code,
+      url: SITE_URL + "/pricing",
+    })),
+  ),
 };
 
 const label = (segment: string) =>

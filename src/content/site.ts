@@ -576,7 +576,6 @@ export const enterpriseItems = [
   "Dedicated success manager", "Guided onboarding and training", "Uptime SLA and priority support", "Invoice billing in PKR or USD"
 ];
 
-export const payMethods = ["Visa", "Mastercard", "JazzCash", "Easypaisa", "Raast", "Bank transfer"];
 
 // Mega-menus in the header.
 export const productGroups: MegaGroup[] = [
