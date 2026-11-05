@@ -33,14 +33,14 @@ export const stateColors: Record<ConvoState, string> = {
 
 export const convos: Convo[] = [
   {
-    name: "Sana K.", channel: "INSTAGRAM", state: "HUMAN HANDOFF", time: "2m", preview: "Price of the green kurta in M?",
+    name: "Sana K.", channel: "WHATSAPP", state: "HUMAN HANDOFF", time: "2m", preview: "Price of the green kurta in M?",
     thread: [[true, "Price of the green kurta in M?"], [false, "PKR 3,200. I can hold a medium for you."], [true, "I want 2. Can you deliver to DHA by Friday?"], [false, "Let me get Ali to confirm Friday delivery — one moment."]],
     panel: ["Sana K. · +92 300 •••• 412", "Buy 2 green kurtas, size M", "Asked price, wants 2 units, needs delivery by Friday", "Quoted PKR 3,200 · held 2 × M · captured number", "Confirm Friday delivery to DHA and take payment"],
   },
   {
     name: "Ahmed Traders", channel: "WEBSITE", state: "QUALIFIED", time: "8m", preview: "We need 50 units wholesale.",
     thread: [[true, "We need 50 units wholesale."], [false, "Great — which design and by when?"], [true, "Gold kurta, mixed sizes, by the 20th."], [false, "Noted. Wholesale pricing starts at PKR 3,600. Shall I set a call?"]],
-    panel: ["Ahmed Traders · Lahore", "Wholesale order, 50 units", "Gold kurta, mixed sizes, deadline the 20th", "Shared wholesale price · lead scored 82/100", "Call to confirm size split and quote"],
+    panel: ["Ahmed Traders · Lahore", "Wholesale order, 50 units", "Gold kurta, mixed sizes, deadline the 20th", "Shared wholesale price · saved as a lead", "Call to confirm size split and quote"],
   },
   {
     name: "Bilal R.", channel: "WHATSAPP", state: "AI ACTIVE", time: "14m", preview: "Do you deliver to Karachi?",
@@ -48,14 +48,14 @@ export const convos: Convo[] = [
     panel: ["Bilal R. · WhatsApp", "Delivery question", "Asked about Karachi delivery", "Answered from delivery policy", "No action needed yet"],
   },
   {
-    name: "Maryam S.", channel: "MESSENGER", state: "NEW", time: "21m", preview: "Is the offer still live?",
+    name: "Maryam S.", channel: "TELEGRAM", state: "NEW", time: "21m", preview: "Is the offer still live?",
     thread: [[true, "Is the offer still live?"]],
-    panel: ["Maryam S. · Messenger", "Offer question", "First message", "AI reply queued", "None"],
+    panel: ["Maryam S. · Telegram", "Offer question", "First message", "AI reply queued", "None"],
   },
   {
     name: "Usman A.", channel: "WEBSITE", state: "RESOLVED", time: "1h", preview: "What's your return policy?",
     thread: [[true, "What's your return policy?"], [false, "7 days, unworn, with receipt."], [true, "Thanks!"]],
-    panel: ["Usman A.", "Returns question", "Asked return policy", "Answered from returns-policy.pdf", "Resolved"],
+    panel: ["Usman A.", "Returns question", "Asked return policy", "Answered from the returns policy", "Resolved"],
   },
 ];
 
@@ -107,7 +107,6 @@ export const addons = [
   { name: "All three", price: "+PKR 700/mo", featured: true },
 ];
 
-export const reassure = ["No setup cost.", "Start free.", "Upgrade later.", "Cancel anytime.", "14-day money back."];
 
 export function pkr(n: number) {
   return "PKR " + Math.round(n).toLocaleString("en-US");

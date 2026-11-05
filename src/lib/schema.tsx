@@ -20,14 +20,14 @@ const software: Schema = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   description:
-    "AI that answers your customers on your website, WhatsApp, Instagram and Messenger, books appointments and captures leads.",
+    "An AI employee that answers customers on WhatsApp, Telegram and website chat, records leads, bookings and tickets in business apps, and hands over to the team.",
   publisher: { "@id": SITE_URL + "/#org" },
   offers: plans.map((p) => ({
     "@type": "Offer",
     name: p.name,
     description: p.desc,
     price: p.n,
-    priceCurrency: "PKR",
+    priceCurrency: "USD",
     url: SITE_URL + "/pricing",
   })),
 };

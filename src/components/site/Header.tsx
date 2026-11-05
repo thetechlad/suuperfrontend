@@ -17,6 +17,9 @@ import { cx, Logo } from "@/components/ui";
 
 type Menu = "product" | "industries" | "resources" | null;
 
+/** The product app lives on its own subdomain; the marketing site has no sign-in of its own. */
+export const APP_LOGIN = "https://app.suuper.cc/login";
+
 const productPaths = nav.product.map((n) => n.href);
 const resourcePaths = ["/resources", ...nav.company.map((n) => n.href)];
 const productByHref = new Map<string, NavItem>(nav.product.map((n) => [n.href, n]));
@@ -62,10 +65,9 @@ function ProductMenu() {
         <>
           <Link href="/#platform" className="font-semibold text-teal">See the whole platform →</Link>
           <div className="flex flex-wrap items-center gap-6">
-            <span className="text-paper/50">4 layers · 8 products · one workspace</span>
             <Link href="/security">Security</Link>
             <Link href="/pricing">Pricing</Link>
-            <Link href="/signup">Start free</Link>
+            <Link href="/signup">Get started</Link>
           </div>
         </>
       }
@@ -262,10 +264,10 @@ function AnnouncementBar() {
   return (
     <div className="relative bg-teal text-[13.5px] text-ink">
       <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-center gap-2.5 px-[52px] py-[9px] text-center">
-        <span className="rounded-full bg-ink px-2 py-[3px] font-mono text-[10.5px] tracking-[.12em] text-teal">NEW</span>
-        <span className="font-medium">WhatsApp Business API is now live on every plan, including Free.</span>
-        <Link href="/chat" className="border-b-[1.5px] border-ink font-bold text-ink hover:text-ink">
-          See what&apos;s new →
+        <span className="rounded-full bg-ink px-2 py-[3px] font-mono text-[10.5px] tracking-[.12em] text-teal">AGENCY PILOT</span>
+        <span className="font-medium">Run a digital agency? Pilot agencies get a free agency workspace and wholesale pricing.</span>
+        <Link href="/agencies" className="border-b-[1.5px] border-ink font-bold text-ink hover:text-ink">
+          Learn more →
         </Link>
       </div>
       <button
@@ -354,6 +356,13 @@ export function Header() {
               {menu === "industries" && <IndustriesMenu />}
             </div>
             <Link
+              href="/agencies"
+              onMouseEnter={() => setMenu(null)}
+              className={cx("rounded-full px-3 py-2", pathname === "/agencies" ? "text-teal" : "text-paper/78")}
+            >
+              Agencies
+            </Link>
+            <Link
               href="/pricing"
               onMouseEnter={() => setMenu(null)}
               className={cx("rounded-full px-3 py-2", pathname === "/pricing" ? "text-teal" : "text-paper/78")}
@@ -375,12 +384,12 @@ export function Header() {
           <span className="flex-1 nav:hidden" />
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <Link href="/login" className="hidden text-sm text-paper/75 nav:inline">Sign in</Link>
+            <a href={APP_LOGIN} className="hidden text-sm text-paper/75 nav:inline">Sign in</a>
             <Link
               href="/signup"
               className="whitespace-nowrap rounded-full bg-teal px-[18px] py-2.5 text-sm font-semibold text-ink hover:text-ink hover:opacity-88"
             >
-              Start free →
+              Get started →
             </Link>
             <button
               type="button"
@@ -424,7 +433,7 @@ export function Header() {
             ))}
           </div>
           <div className="mt-[18px] flex flex-col">
-            {[["Industries", "/industries"], ["Pricing", "/pricing"], ["Resources", "/resources"]].map(([l, h]) => (
+            {[["Agencies", "/agencies"], ["Industries", "/industries"], ["Pricing", "/pricing"], ["Resources", "/resources"]].map(([l, h]) => (
               <Link key={h} href={h} className="border-b border-paper/6 px-1 py-3 font-display text-2xl font-semibold">
                 {l}
               </Link>
@@ -440,11 +449,11 @@ export function Header() {
           </div>
           <div className="mt-[30px] flex flex-col gap-2.5">
             <Link href="/signup" className="rounded-full bg-teal p-4 text-center text-base font-semibold text-ink hover:text-ink">
-              Start free
+              Get started
             </Link>
-            <Link href="/login" className="rounded-full border border-paper/30 p-4 text-center text-base font-semibold">
+            <a href={APP_LOGIN} className="rounded-full border border-paper/30 p-4 text-center text-base font-semibold">
               Sign in
-            </Link>
+            </a>
           </div>
         </div>
       )}

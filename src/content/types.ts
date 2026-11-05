@@ -245,13 +245,15 @@ export type Industry = { key: string; name: string; src: string; benefit: string
 export type PlanFeature = { t: string; on: boolean };
 export type Plan = {
   name: string;
-  /** Monthly list price in PKR. */
+  /** Monthly list price in USD. */
   n: number;
   desc: string;
-  /** Monthly AI reply allowance, as displayed. */
+  /** Monthly AI credits (1 credit = $0.01 of AI provider cost). */
+  credits: number;
+  /** Monthly bot reply allowance, as displayed. */
   replies: string;
-  /** Ribbon above the card (the popular plan gets its own). */
-  ribbon?: string;
+  bots: number;
+  seats: number;
   groups: { label: string; items: PlanFeature[] }[];
 };
 export type BillingCycle = { key: "monthly" | "quarterly" | "yearly"; label: string; discount: number; badge?: string };

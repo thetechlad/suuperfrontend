@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { HOME_DESCRIPTION, HOME_TITLE } from "@/lib/routes";
+import { Tracking } from "@/components/site/Tracking";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"] });
@@ -39,7 +40,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="min-h-screen overflow-x-hidden bg-ink">{children}</body>
+      <body className="min-h-screen overflow-x-hidden bg-ink">
+        {children}
+        <Tracking />
+      </body>
     </html>
   );
 }

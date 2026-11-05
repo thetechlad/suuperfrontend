@@ -1,14 +1,13 @@
-import { views } from "@/content/dashboard";
 import { articles, customerPages, industryPages, topLevelPages } from "@/content/site";
 
 export const SITE_URL = "https://suuper.cc";
 
-export const HOME_TITLE = "Suuper — AI Chatbot for WhatsApp, Instagram & Your Website";
+export const HOME_TITLE = "Suuper — AI Employees for WhatsApp-First Businesses";
 export const HOME_DESCRIPTION =
-  "AI that answers your customers on your website, WhatsApp, Instagram and Messenger, books appointments and captures leads around the clock. Start free.";
+  "Suuper answers your customers on WhatsApp, Telegram and your website, books appointments, captures leads and hands over to your team. For businesses and agencies.";
 
 /** Pages whose content duplicates another page; they canonicalise to it and stay out of the sitemap. */
-export const duplicateOf: Record<string, string> = { "/blog": "/resources" };
+export const duplicateOf: Record<string, string> = {};
 
 /** Public marketing pages, in sitemap order. */
 export const publicPaths: string[] = [
@@ -25,10 +24,4 @@ export const publicPaths: string[] = [
 export const knownPaths = new Set<string>([
   ...publicPaths,
   ...Object.keys(duplicateOf),
-  "/login",
-  "/signup",
-  "/app",
-  ...Object.keys(views)
-    .filter((v) => v !== "overview")
-    .map((v) => "/app/" + v),
 ]);

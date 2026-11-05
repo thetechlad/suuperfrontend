@@ -487,7 +487,7 @@ export function Connectors({ s, band, num }: { s: ConnectorsSection; band: Band;
 const ctaTiles: { label: string; pos: string; rot: number }[] = [
   { label: "WEB", pos: "top-[14%] left-[6%]", rot: -10 },
   { label: "WA", pos: "top-[58%] left-[3%]", rot: 8 },
-  { label: "MCP", pos: "bottom-[10%] left-[15%]", rot: -4 },
+  { label: "TG", pos: "bottom-[10%] left-[15%]", rot: -4 },
   { label: "AGT", pos: "top-[12%] right-[7%]", rot: 10 },
   { label: "APP", pos: "top-[54%] right-[3%]", rot: -8 },
   { label: "24/7", pos: "bottom-[12%] right-[14%]", rot: 5 },
@@ -686,7 +686,7 @@ export function Compare({ s, num }: { s: CompareSection; num: string }) {
                       i === popIdx ? "bg-teal" : "border border-ink/30",
                     )}
                   >
-                    {i === 0 ? "Start free" : n === "Enterprise" ? "Talk to sales" : "Choose"}
+                    {i === 0 ? "Get started" : n === "Enterprise" ? "Talk to sales" : "Choose"}
                   </Link>
                 </span>
               ))}

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { honeypotProps, submitLead } from "@/lib/leads";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type {
   BookSection,
@@ -14,7 +15,7 @@ import type {
   UseCasesSection,
   VidTestSection,
 } from "@/content/types";
-import { AccentTitle, AvatarStack, BigHeader, cx, NumPill } from "@/components/ui";
+import { AccentTitle, BigHeader, cx, NumPill } from "@/components/ui";
 import type { Band } from "./static";
 
 /** Outlined filter chip used by the changelog and job filters. */
@@ -162,7 +163,7 @@ export function ChannelDemo({ s, band, num }: { s: ChannelDemoSection; band: Ban
                     <span className="block text-[15px] font-semibold">{c.label}</span>
                     <span className="mt-0.5 block truncate text-[12.5px] opacity-60">{c.who}</span>
                   </span>
-                  <span className="font-mono text-[10.5px] tracking-[.08em] opacity-70">AVG {c.stat}</span>
+                  <span className="font-mono text-[10.5px] tracking-[.08em] opacity-70">{c.stat}</span>
                 </button>
               );
             })}
@@ -184,7 +185,7 @@ export function ChannelDemo({ s, band, num }: { s: ChannelDemoSection; band: Ban
                 <span className="size-4 rounded-[6px_6px_6px_2px] bg-ink" />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[15px] font-semibold">Kurta House · {ch.label}</span>
+                <span className="block text-[15px] font-semibold">Sample store · {ch.label}</span>
                 <span className="block truncate text-[12.5px] text-paper/55">{ch.who}</span>
               </span>
               <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] tracking-[.1em] text-mint">
@@ -381,7 +382,7 @@ export function VideoTestimonials({ s, band, num }: { s: VidTestSection; band: B
                   ›
                 </button>
                 <Link href="/signup" className="ml-auto rounded-full bg-teal px-5 py-3 text-sm font-semibold text-ink hover:text-ink">
-                  Start free
+                  Get started
                 </Link>
               </span>
             </div>
@@ -410,23 +411,29 @@ const startOfToday = () => {
 };
 const bookInput = "rounded-xl border border-ink/18 bg-white px-3.5 py-[13px] text-[14.5px] text-ink outline-none placeholder:text-ink/45 focus:border-teal-deep";
 
+const audienceFromUrl = () => (new URLSearchParams(location.search).get("for") === "agency" ? "agency" : "business");
+
 export function Book({ s }: { s: BookSection }) {
   // Null on the server, so the calendar renders with every day disabled until it hydrates.
   const todayTs = useSyncExternalStore(noSubscribe, startOfToday, () => null);
   const today = todayTs === null ? null : new Date(todayTs);
+  const urlAudience = useSyncExternalStore(noSubscribe, audienceFromUrl, () => null);
+  const [picked, setPicked] = useState<"business" | "agency" | null>(null);
+  const audience = picked ?? urlAudience ?? "business";
   const [month, setMonth] = useState(0);
   const [date, setDate] = useState<Date | null>(null);
   const [time, setTime] = useState("");
   const [done, setDone] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState("");
 
   const base = today ?? new Date(2026, 0, 1);
   const first = new Date(base.getFullYear(), base.getMonth() + month, 1);
   const lead = (first.getDay() + 6) % 7;
   const daysIn = new Date(first.getFullYear(), first.getMonth() + 1, 0).getDate();
-  const slots = date ? SLOTS.filter((_, i) => (i + date.getDate()) % 4 !== 0) : [];
+  const slots = date ? SLOTS : [];
   const longDate = date ? `${DAYS[date.getDay()]}, ${MONTHS[date.getMonth()]} ${date.getDate()}` : "";
-  const shortDate = date ? `${DAYS[date.getDay()].slice(0, 3)}, ${MONTHS[date.getMonth()].slice(0, 3)} ${date.getDate()}` : "";
-  const stepLabel = !date ? "STEP 1 OF 3 · PICK A DAY" : !time ? "STEP 2 OF 3 · PICK A TIME" : "STEP 3 OF 3 · YOUR DETAILS";
+  const stepLabel = !date ? "STEP 1 OF 3 · PICK A PREFERRED DAY" : !time ? "STEP 2 OF 3 · PICK A PREFERRED TIME" : "STEP 3 OF 3 · YOUR DETAILS";
   const changeMonth = (m: number) => {
     setMonth(Math.max(0, Math.min(2, m)));
     setDate(null);
@@ -439,49 +446,67 @@ export function Book({ s }: { s: BookSection }) {
         <div className="relative overflow-hidden rounded-[28px] border border-paper/8 bg-ink bg-[radial-gradient(rgb(247_246_242/.09)_1px,transparent_1px)] bg-size-[22px_22px] p-[clamp(28px,4vw,52px)]">
           <div aria-hidden className="absolute -top-[20%] -right-[20%] h-3/5 w-[70%] bg-[radial-gradient(closest-side,rgb(0_194_168/.25),transparent)] blur-[20px]" />
           <div className="relative">
-            <span className="font-mono text-[11px] tracking-[.16em] text-teal">BOOK A DEMO · 30 MIN</span>
+            <span className="font-mono text-[11px] tracking-[.16em] text-teal">{audience === "agency" ? "AGENCY PILOT · APPLY" : "BOOK A DEMO · 30 MIN"}</span>
             <h1 className="mt-4 text-balance font-display text-[clamp(38px,5vw,64px)] leading-[.98] font-semibold tracking-[-.05em]">
-              See Suuper on <span className="font-serif font-normal italic text-teal">your</span> business.
+              {audience === "agency" ? (
+                <>
+                  Start your <span className="font-serif font-normal italic text-teal">AI services</span> business.
+                </>
+              ) : (
+                <>
+                  See Suuper on <span className="font-serif font-normal italic text-teal">your</span> business.
+                </>
+              )}
             </h1>
             <p className="mt-[18px] max-w-[30em] text-[17px] leading-[1.55] text-paper/65">
-              Bring your website and one process you want off your plate. We&apos;ll build it live.
+              {audience === "agency"
+                ? "Tell us about your agency and your clients. Pilot agencies get a free agency workspace and hands-on help setting up their first three clients."
+                : "Bring your WhatsApp, your price list and one process you want off your plate. We'll set it up with you, live."}
             </p>
             <ul className="mt-7 flex flex-col gap-3">
-              {s.points.map((p) => (
+              {(audience === "agency"
+                ? ["A free agency workspace during the pilot", "Wholesale pricing for pilot agencies", "Hands-on setup of your first three clients", "You keep the client relationship and the monthly fee"]
+                : s.points
+              ).map((p) => (
                 <li key={p} className="flex items-start gap-3 text-[15px] leading-normal">
                   <span className="grid size-[22px] flex-none place-items-center rounded-full bg-teal/18 text-xs font-bold text-teal">✓</span>
                   {p}
                 </li>
               ))}
             </ul>
-            <div className="mt-9 flex items-center gap-3.5 border-t border-paper/10 pt-6">
-              <AvatarStack size={40} />
-              <span className="text-sm leading-[1.45] text-paper/70">
-                You&apos;ll meet a product specialist, not a sales script. <span className="text-paper">4.9/5 from 300+ demos.</span>
-              </span>
-            </div>
           </div>
         </div>
         <div className="rounded-[28px] bg-paper p-[clamp(24px,3.5vw,40px)] text-ink">
           {done ? (
             <div className="flex min-h-[460px] animate-[pop_.5s_both] flex-col items-start justify-center gap-4" aria-live="polite">
               <span className="grid size-14 place-items-center rounded-full bg-teal text-[26px] font-bold">✓</span>
-              <h2 className="font-display text-[40px] font-semibold tracking-[-.04em]">You&apos;re booked.</h2>
+              <h2 className="font-display text-[40px] font-semibold tracking-[-.04em]">Request received.</h2>
               <p className="text-base leading-[1.55] text-ink/70">
-                {longDate} at {time} PKT. A calendar invite and video link are on their way to your inbox.
+                {date && time ? `You asked for ${longDate} at ${time} PKT. ` : ""}We&apos;ll reply by email to confirm a time that works.
               </p>
-              <div className="mt-2 flex flex-wrap gap-2.5">
-                <Link href="/demo" className="rounded-full bg-ink px-5 py-3 text-sm font-semibold text-paper hover:text-paper">
-                  Add to Google Calendar
-                </Link>
-                <Link href="/" className="rounded-full border border-ink/30 px-[18px] py-[11px] text-sm font-semibold text-ink hover:text-ink">
-                  Back to home
-                </Link>
-              </div>
+              <Link href="/" className="mt-2 rounded-full border border-ink/30 px-[18px] py-[11px] text-sm font-semibold text-ink hover:text-ink">
+                Back to home
+              </Link>
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-between gap-3">
+              <div className="flex flex-wrap gap-1.5" role="group" aria-label="I am a">
+                {(["business", "agency"] as const).map((a) => (
+                  <button
+                    key={a}
+                    type="button"
+                    aria-pressed={audience === a}
+                    onClick={() => setPicked(a)}
+                    className={cx(
+                      "rounded-full border px-4 py-2 text-sm font-semibold",
+                      audience === a ? "border-ink bg-ink text-paper" : "border-ink/20 bg-transparent text-ink",
+                    )}
+                  >
+                    {a === "business" ? "I run a business" : "I run an agency"}
+                  </button>
+                ))}
+              </div>
+              <div className="mt-5 flex items-center justify-between gap-3">
                 <span className="font-mono text-[11px] tracking-[.14em] text-ink/55">{stepLabel}</span>
                 <span className="font-mono text-[11px] text-ink/55">PKT · GMT+5</span>
               </div>
@@ -515,7 +540,7 @@ export function Book({ s }: { s: BookSection }) {
                 ))}
                 {Array.from({ length: daysIn }, (_, i) => {
                   const d = new Date(first.getFullYear(), first.getMonth(), i + 1);
-                  const off = !today || d <= today || d.getDay() === 0 || d.getDay() === 6;
+                  const off = !today || d <= today || d.getDay() === 0;
                   const on = !!date && d.getTime() === date.getTime();
                   return (
                     <button
@@ -539,7 +564,7 @@ export function Book({ s }: { s: BookSection }) {
               </div>
               {date && (
                 <>
-                  <p className="mt-[22px] mb-2.5 font-mono text-[11px] tracking-[.12em] text-ink/55">{longDate.toUpperCase()} · 30 MIN</p>
+                  <p className="mt-[22px] mb-2.5 font-mono text-[11px] tracking-[.12em] text-ink/55">{longDate.toUpperCase()} · PREFERRED TIME</p>
                   <div className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-1.5">
                     {slots.map((t) => (
                       <button
@@ -560,27 +585,62 @@ export function Book({ s }: { s: BookSection }) {
               )}
               {time && (
                 <form
-                  className="animate-[pop_.35s_both]"
+                  className="relative animate-[pop_.35s_both]"
                   onSubmit={(e) => {
                     e.preventDefault();
-                    setDone(true);
+                    setSending(true);
+                    setError("");
+                    submitLead(audience === "agency" ? "apply" : "demo", e.currentTarget, {
+                      audience,
+                      preferredSlot: `${longDate} ${time} PKT`,
+                    })
+                      .then(() => setDone(true))
+                      .catch((err: Error) => setError(err.message))
+                      .finally(() => setSending(false));
                   }}
                 >
+                  <input {...honeypotProps} />
                   <div className="mt-[22px] grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-2">
                     <input required name="name" autoComplete="name" placeholder="Full name" aria-label="Full name" className={bookInput} />
-                    <input required name="email" type="email" autoComplete="email" placeholder="Work email" aria-label="Work email" className={bookInput} />
-                    <input name="website" autoComplete="url" placeholder="Company website" aria-label="Company website" className={bookInput} />
-                    <select name="team" aria-label="Team size" className={bookInput}>
-                      <option>Team size: 1–10</option>
-                      <option>11–50</option>
-                      <option>51–200</option>
-                      <option>200+ (Enterprise)</option>
-                    </select>
+                    <input required name="email" type="email" autoComplete="email" placeholder="Email" aria-label="Email" className={bookInput} />
+                    <input name="whatsapp" type="tel" autoComplete="tel" placeholder="WhatsApp number" aria-label="WhatsApp number" className={bookInput} />
+                    <input
+                      name="company"
+                      autoComplete="organization"
+                      placeholder={audience === "agency" ? "Agency name" : "Business name"}
+                      aria-label={audience === "agency" ? "Agency name" : "Business name"}
+                      className={bookInput}
+                    />
+                    {audience === "agency" ? (
+                      <select name="clients" aria-label="Number of clients" className={bookInput} defaultValue="">
+                        <option value="" disabled>
+                          How many clients?
+                        </option>
+                        <option>1–4</option>
+                        <option>5–20</option>
+                        <option>21–50</option>
+                        <option>50+</option>
+                      </select>
+                    ) : (
+                      <input name="website" autoComplete="url" placeholder="Website (optional)" aria-label="Website" className={bookInput} />
+                    )}
                   </div>
-                  <button type="submit" className="mt-3.5 w-full rounded-full border-0 bg-ink p-4 text-[15px] font-semibold text-paper">
-                    Confirm {shortDate} · {time}
+                  <textarea
+                    name="message"
+                    rows={3}
+                    placeholder={audience === "agency" ? "Which kinds of clients do you serve?" : "What do customers ask you most on WhatsApp?"}
+                    aria-label="Message"
+                    className={cx(bookInput, "mt-2 w-full resize-y")}
+                  />
+                  {error && (
+                    <p role="alert" className="mt-3 text-sm text-[#b42318]">
+                      {error}
+                    </p>
+                  )}
+                  <button type="submit" disabled={sending} className="mt-3.5 w-full rounded-full border-0 bg-ink p-4 text-[15px] font-semibold text-paper disabled:opacity-60">
+                    {sending ? "Sending…" : audience === "agency" ? "Apply for the agency pilot" : "Request this time"}
                   </button>
-                  <p className="mt-3 text-center font-mono text-[10.5px] tracking-[.08em] text-ink/50">FREE · NO COMMITMENT · RESCHEDULE ANYTIME</p>
+                  <p className="mt-3 text-center font-mono text-[10.5px] tracking-[.08em] text-ink/50">WE&apos;LL CONFIRM BY EMAIL · NO COMMITMENT</p>
                 </form>
               )}
             </>

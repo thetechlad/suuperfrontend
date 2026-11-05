@@ -14,7 +14,7 @@ import type {
   VsSection,
   WorkflowAnimSection,
 } from "@/content/types";
-import { AccentTitle, AvatarStack, BigHeader, Circled, CtaLink, cx, NumPill, Underline } from "@/components/ui";
+import { AccentTitle, BigHeader, Circled, CtaLink, cx, NumPill, Underline } from "@/components/ui";
 import { HeroBackdrop } from "./Hero";
 import type { Band } from "./static";
 
@@ -34,12 +34,11 @@ export function OHero({ s }: { s: OHeroSection }) {
           <div className="flex flex-wrap items-center justify-between gap-10">
             <div className="min-w-0 flex-[1_1_400px]">
               <Link
-                href="/signup"
-                className="inline-flex animate-[pop_.6s_both] items-center gap-3 rounded-full border border-paper/14 bg-paper/4 py-1.5 pr-1.5 pl-2"
+                href="/agencies"
+                className="inline-flex animate-[pop_.6s_both] items-center gap-3 rounded-full border border-paper/14 bg-paper/4 py-1.5 pr-1.5 pl-4"
               >
-                <AvatarStack />
                 <span className="text-[13px] text-paper/82">{s.badge}</span>
-                <span className="rounded-full bg-teal px-3 py-1.5 text-xs font-semibold text-ink">Start free →</span>
+                <span className="rounded-full bg-teal px-3 py-1.5 text-xs font-semibold text-ink">Agency pilot →</span>
               </Link>
               <div className="mt-7 max-w-[560px] animate-[pop_.7s_.1s_both]">
                 <h1 className="m-0 text-balance font-display text-[clamp(32px,3.6vw,48px)] leading-[1.04] font-medium tracking-[-.03em]">
@@ -421,9 +420,9 @@ export function WorkflowAnim({ s, band, num }: { s: WorkflowAnimSection; band: B
           className="relative mt-12 overflow-hidden rounded-[28px] border border-paper/10 bg-[#0a0e0c] bg-[radial-gradient(rgb(247_246_242/.08)_1px,transparent_1px)] bg-size-[20px_20px] p-[clamp(18px,3vw,32px)]"
         >
           <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-teal/35 bg-teal/6 px-[18px] py-3.5">
-            <span className="font-mono text-[10.5px] tracking-[.14em] text-teal">PROMPT</span>
+            <span className="font-mono text-[10.5px] tracking-[.14em] text-teal">THE RULE</span>
             <span className="flex-[1_1_300px] text-[15.5px] leading-normal">{s.prompt}</span>
-            <span className="rounded-full bg-teal px-3 py-[7px] font-mono text-[10.5px] tracking-[.1em] text-ink">BUILD ↵</span>
+            <span className="rounded-full bg-teal px-3 py-[7px] font-mono text-[10.5px] tracking-[.1em] text-ink">ON</span>
           </div>
           <ol className="mt-9 flex items-stretch overflow-x-auto px-0.5 pt-1 pb-3">
             {s.nodes.map((n, i) => (
@@ -717,7 +716,7 @@ export function Hire({ s, num }: { s: HireSection; num: string }) {
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-ink/12 pt-6">
           <span className="font-display text-xl font-semibold tracking-[-.02em]">{s.save}</span>
           <span className="flex flex-wrap gap-2.5">
-            <CtaLink cta={{ label: "Start free", href: "/signup", variant: "dark" }} />
+            <CtaLink cta={{ label: "Book a demo", href: "/demo", variant: "dark" }} />
             <CtaLink cta={{ label: "Talk to sales", href: "/demo", variant: "outlineDark" }} />
           </span>
         </div>
