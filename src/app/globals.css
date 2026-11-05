@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0e1210;
+  --color-paper: #f7f6f2;
+  --color-teal: #00c2a8;
+  --color-panel: #141a18;
+  --color-card: #161b18;
+  --color-deep: #060908;
+  --color-teal-deep: #00897a;
+  --color-bubble: #161d1a;
+  --color-peach: #ffd9ce;
+  --color-mint: #7fe0d2;
+
+  --font-sans: var(--font-inter), Helvetica, Arial, sans-serif;
+  --font-display: var(--font-space-grotesk), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+  --font-serif: var(--font-instrument-serif), serif;
+
+  --breakpoint-nav: 940px;
+
+  --animate-pop: pop 0.35s both;
+  --animate-fadein: fadein 0.3s both;
+  --animate-blink: blink 1.2s infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 34s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.6s infinite;
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(34px); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes zoom {
+    from { opacity: 0; transform: scale(0.94); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes pop {
+    0% { opacity: 0; transform: translateY(16px) scale(0.96); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes flow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes grow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes blink {
+    0%, 60% { opacity: 0.25; }
+    30% { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes fadein {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes pulse-ring {
+    0%, 100% { box-shadow: 0 0 0 0 rgb(0 194 168 / 0.5); }
+    70% { box-shadow: 0 0 0 16px rgb(0 194 168 / 0); }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  a {
+    color: var(--color-paper);
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-teal);
+  }
+  button {
+    cursor: pointer;
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: rgb(247 246 242 / 0.35);
+  }
+  input[type="range"] {
+    accent-color: var(--color-teal);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 2px;
+  }
+  [id] {
+    scroll-margin-top: 70px;
+  }
+}
+
+/* Teal panels with the dotted texture used across the design. */
+@utility teal-dots {
+  background-color: var(--color-teal);
+  background-image: radial-gradient(rgb(14 18 16 / 0.22) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+  color: var(--color-ink);
+}
+@utility teal-dots-sm {
+  background-color: var(--color-teal);
+  background-image: radial-gradient(rgb(14 18 16 / 0.2) 1.2px, transparent 1.2px);
+  background-size: 16px 16px;
+  color: var(--color-ink);
+}
+
+/* Dark tile used by most sections. */
+@utility card {
+  background-color: var(--color-card);
+  border: 1px solid rgb(247 246 242 / 0.08);
+  border-radius: 22px;
+}
+
+/* Frosted panel floating on the dark background. */
+@utility glass {
+  background: rgb(247 246 242 / 0.04);
+  border: 1px solid rgb(247 246 242 / 0.1);
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.07), 0 30px 80px rgb(0 0 0 / 0.35);
+}
+
+/* Teal-to-mint gradient text for title accents. */
+@utility text-gradient {
+  background: linear-gradient(90deg, var(--color-teal), var(--color-mint));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Faint 64px grid that fades out from the top of hero panels. */
+@utility hero-grid {
+  background-image:
+    linear-gradient(rgb(247 246 242 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(247 246 242 / 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 30%, #000 10%, transparent 70%);
+}
+
+/* Cursor spotlight on cards marked data-spot (position set by SpotlightTracker). */
+[data-spot]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(420px circle at var(--mx, -600px) var(--my, -600px), rgb(0 194 168 / 0.16), transparent 45%);
+}
+
+/* Light mode is an inverted render of the dark theme; photos are inverted back. */
+html[data-theme="light"] {
+  filter: invert(1) hue-rotate(180deg);
+  background: var(--color-ink);
+}
+html[data-theme="light"] img,
+html[data-theme="light"] video,
+html[data-theme="light"] [role="img"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Alternating section bands. */
+@utility band-plain {
+  border-top: 1px solid rgb(247 246 242 / 0.08);
+}
+@utility band-dotted {
+  border-top: 1px solid rgb(247 246 242 / 0.08);
+  background-image: radial-gradient(rgb(247 246 242 / 0.09) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Scroll-driven reveals; browsers without view timelines show content statically. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-rise {
+      animation: rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+    }
+    .reveal-zoom {
+      animation: zoom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+    .reveal-pop {
+      animation: pop linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+    .reveal-grow {
+      transform-origin: left;
+      animation: grow linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 40%;
+    }
+    .reveal-flow {
+      transform-origin: left;
+      animation: flow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
