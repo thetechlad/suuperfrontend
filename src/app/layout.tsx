@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { HOME_DESCRIPTION, HOME_TITLE } from "@/lib/routes";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const spaceGrotesk = Space_Grotesk({ variable: "--font-space-grotesk", subsets: ["latin"] });
@@ -10,13 +11,14 @@ const instrumentSerif = Instrument_Serif({ variable: "--font-instrument-serif", 
 export const metadata: Metadata = {
   metadataBase: new URL("https://suuper.cc"),
   title: {
-    default: "Suuper — Your business, on autopilot.",
+    default: HOME_TITLE,
     template: "%s · Suuper",
   },
-  description: "Suuper connects your knowledge, tools, workflows and AI agents into one intelligent operating layer.",
+  description: HOME_DESCRIPTION,
   openGraph: {
-    title: "Suuper — Your business, on autopilot.",
-    description: "AI that answers your customers on your website, WhatsApp, Instagram and Messenger. Start free.",
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    siteName: "Suuper",
     images: ["/images/og-boutique.jpg"],
     type: "website",
   },

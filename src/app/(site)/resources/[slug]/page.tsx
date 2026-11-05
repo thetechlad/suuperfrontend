@@ -10,7 +10,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/resources/[slug]">) {
   const { slug } = await params;
-  return pageMetadata("article-" + slug);
+  return pageMetadata("article-" + slug, "/resources/" + slug);
 }
 
 export default async function ArticlePage({ params }: PageProps<"/resources/[slug]">) {

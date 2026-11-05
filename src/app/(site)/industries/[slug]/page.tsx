@@ -10,7 +10,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/industries/[slug]">) {
   const { slug } = await params;
-  return pageMetadata("ind-" + slug);
+  return pageMetadata("ind-" + slug, "/industries/" + slug);
 }
 
 export default async function IndustryPage({ params }: PageProps<"/industries/[slug]">) {
