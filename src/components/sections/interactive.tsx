@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { builtSteps, demoQA } from "@/content/demo";
-import { agencyPilot, creditNotes, planIncludes, plans, popularPlan } from "@/content/site";
+import { agencyPilot, billingCycles, creditNotes, planIncludes, plans, popularPlan } from "@/content/site";
 import type {
   BuilderSection,
   ConnectorSection,
@@ -337,6 +337,8 @@ const usd = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
 export function Pricing({ s }: { s: PricingSection }) {
   const [details, setDetails] = useState(true);
+  const [cycleKey, setCycleKey] = useState<(typeof billingCycles)[number]["key"]>("monthly");
+  const cycle = billingCycles.find((c) => c.key === cycleKey) ?? billingCycles[0];
 
   return (
     <>
@@ -355,6 +357,27 @@ export function Pricing({ s }: { s: PricingSection }) {
 
       <section>
         <div className="mx-auto max-w-[1240px] px-6 pt-8">
+          <div
+            role="group"
+            aria-label="Billing period"
+            className="mb-6 grid grid-cols-2 gap-1 rounded-[22px] border border-paper/10 bg-panel p-[5px] sm:inline-flex sm:rounded-full"
+          >
+            {billingCycles.map((c) => (
+              <button
+                key={c.key}
+                type="button"
+                aria-pressed={cycle.key === c.key}
+                onClick={() => setCycleKey(c.key)}
+                className={cx(
+                  "flex flex-col items-center justify-center gap-1 rounded-[18px] border-0 px-3 py-2.5 text-sm font-semibold sm:flex-row sm:gap-2 sm:rounded-full sm:px-[18px]",
+                  cycle.key === c.key ? "bg-paper text-ink" : "bg-transparent text-paper/70",
+                )}
+              >
+                {c.label}
+                {c.badge && <span className="rounded-full bg-teal px-[7px] py-[3px] font-mono text-[10.5px] font-bold text-ink">{c.badge}</span>}
+              </button>
+            ))}
+          </div>
           <div className="grid grid-cols-1 items-stretch gap-4 min-[620px]:grid-cols-2 min-[1100px]:grid-cols-4">
             {plans.map((p) => {
               const pop = p.name === popularPlan;
@@ -377,9 +400,15 @@ export function Pricing({ s }: { s: PricingSection }) {
                   >
                     <p className="font-display text-[22px] font-bold tracking-[-.02em]">{p.name}</p>
                     <p className="mt-1.5 text-[13.5px] leading-[1.45] opacity-65">{p.desc}</p>
-                    <p className="mt-[18px] flex items-baseline gap-1.5 whitespace-nowrap">
-                      <span className="font-mono text-[clamp(26px,2.4vw,32px)] font-bold tracking-[-.02em]">{usd(p.n)}</span>
+                    {cycle.discount > 0 && <p className="mt-[18px] font-mono text-sm line-through opacity-45">{usd(p.n)}</p>}
+                    <p className={cx("flex items-baseline gap-1.5 whitespace-nowrap", cycle.discount > 0 ? "mt-1" : "mt-[18px]")}>
+                      <span className="font-mono text-[clamp(26px,2.4vw,32px)] font-bold tracking-[-.02em]">{usd(p.n * (1 - cycle.discount))}</span>
                       <span className="text-[13px] opacity-60">/month</span>
+                    </p>
+                    <p className="mt-1.5 font-mono text-[10.5px] tracking-[.1em] opacity-55">
+                      {cycle.months === 1
+                        ? "BILLED MONTHLY"
+                        : `BILLED ${usd(p.n * (1 - cycle.discount) * cycle.months)} EVERY ${cycle.months === 12 ? "YEAR" : cycle.months + " MONTHS"}`}
                     </p>
                     <div className={cx("mt-5 grid grid-cols-2 gap-px overflow-hidden rounded-[14px] border", pop ? "border-teal/35 bg-teal/20" : "border-paper/10 bg-paper/10")}>
                       {[
@@ -491,7 +520,7 @@ export function Pricing({ s }: { s: PricingSection }) {
             </div>
           </div>
           <p className="mt-6 text-center font-mono text-[11px] tracking-[.1em] text-paper/45">
-            PRICES IN USD, BILLED MONTHLY · WHATSAPP CONVERSATION CHARGES FROM META ARE BILLED SEPARATELY BY META
+            PRICES IN USD · LONGER PERIODS ARE PAID UPFRONT · AI CREDITS RESET MONTHLY · WHATSAPP CHARGES ARE BILLED SEPARATELY BY META
           </p>
         </div>
       </section>

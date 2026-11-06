@@ -3,7 +3,7 @@
 // Accuracy rule: product claims here must match what is built and live (Suuper Business Pitch,
 // Oct 26 2026, "Built and live"). Anything on the roadmap is labelled as such. No customer
 // results, ratings, testimonials or usage numbers until they are real and verifiable.
-import type { Article, ButtonVariant, Card, Cta, CtaSection, FooterColumn, Industry, MegaGroup, Mock, NavItem, Plan, ResourceTile, Section } from "./types";
+import type { Article, BillingCycle, ButtonVariant, Card, Cta, CtaSection, FooterColumn, Industry, MegaGroup, Mock, NavItem, Plan, ResourceTile, Section } from "./types";
 
 const img = (name: string) => `/images/${name}.jpg`;
 const btn = (label: string, href: string, variant: ButtonVariant): Cta => ({ label, href, variant });
@@ -450,7 +450,7 @@ export const pages: Record<string, Section[]> = {
   pricing: [
     { type: "pricing", title: "Simple plans. Capped AI costs.", sub: "Every plan includes the full platform and a monthly budget of AI credits, so your AI bill can't run away. Agencies get wholesale pricing through the pilot." },
     { type: "roi", title: "Count what silence costs you.", sub: "Move the sliders to estimate how much revenue unanswered messages could be costing you. An estimate, not a promise.", cta: "Book a demo" },
-    { type: "faq", title: "Pricing questions.", items: [faqs[7], faqs[6], faqs[10], faqs[9], faqs[11], ["Can I change plans later?", "Yes. Talk to us and we'll move you to the plan that fits your volume."]] },
+    { type: "faq", title: "Pricing questions.", items: [faqs[7], faqs[6], faqs[10], faqs[9], faqs[11], ["Can I pay quarterly, half-yearly or yearly?", "Yes. Pay for 3 months and save 10%, 6 months and save 15%, or a full year and get 2 months free. Your AI credits still reset every month."], ["Can I change plans later?", "Yes. Talk to us and we'll move you to the plan that fits your volume."]] },
     finalCta,
   ],
 
@@ -549,6 +549,14 @@ export const plans: Plan[] = [
   },
 ];
 export const popularPlan = "Growth";
+
+/** Prepaid billing periods. The discount applies to the monthly price; AI credits stay per month. */
+export const billingCycles: BillingCycle[] = [
+  { key: "monthly", label: "Monthly", months: 1, discount: 0 },
+  { key: "quarterly", label: "Quarterly", months: 3, discount: 0.1, badge: "−10%" },
+  { key: "halfyearly", label: "Half-yearly", months: 6, discount: 0.15, badge: "−15%" },
+  { key: "yearly", label: "Yearly", months: 12, discount: 1 / 6, badge: "2 months free" },
+];
 
 export const planIncludes = [
   "WhatsApp, Telegram and website chat",

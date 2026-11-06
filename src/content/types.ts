@@ -256,7 +256,7 @@ export type Plan = {
   seats: number;
   groups: { label: string; items: PlanFeature[] }[];
 };
-export type BillingCycle = { key: "monthly" | "quarterly" | "yearly"; label: string; discount: number; badge?: string };
+export type BillingCycle = { key: "monthly" | "quarterly" | "halfyearly" | "yearly"; label: string; months: number; discount: number; badge?: string };
 export type MegaGroup = { label: string; items: string[] };
 export type ResourceTile = { label: string; href: string; color: string; icon: string; isNew?: boolean };
 export type FooterColumn = { title: string; links: [string, string][] };
