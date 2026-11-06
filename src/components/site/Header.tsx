@@ -382,14 +382,17 @@ export function Header() {
             </div>
           </nav>
           <span className="flex-1 nav:hidden" />
-          <div className="flex items-center gap-4">
-            <ThemeToggle />
+          <div className="flex items-center gap-3 min-[420px]:gap-4">
+            {/* On narrow phones the theme switch moves out of the bar so the menu button always fits. */}
+            <span className="hidden min-[420px]:contents">
+              <ThemeToggle />
+            </span>
             <a href={APP_LOGIN} className="hidden text-sm text-paper/75 nav:inline">Sign in</a>
             <Link
               href="/signup"
-              className="whitespace-nowrap rounded-full bg-teal px-[18px] py-2.5 text-sm font-semibold text-ink hover:text-ink hover:opacity-88"
+              className="whitespace-nowrap rounded-full bg-teal px-4 py-2.5 text-sm font-semibold text-ink hover:text-ink hover:opacity-88 min-[420px]:px-[18px]"
             >
-              Get started →
+              Get started<span className="hidden min-[420px]:inline"> →</span>
             </Link>
             <button
               type="button"
@@ -414,6 +417,9 @@ export function Header() {
         >
           <div className="flex items-center justify-between border-b border-paper/10 pb-[18px]">
             <Logo />
+            <span className="ml-auto mr-3 min-[420px]:hidden">
+              <ThemeToggle />
+            </span>
             <button
               type="button"
               aria-label="Close menu"

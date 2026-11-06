@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   devIndicators: false,
+  // Serve images as-is. The on-the-fly optimizer needs worker threads that Hostinger's shared-hosting
+  // process limit doesn't allow (it returned 503 for every image); the files in public/ are already web-sized.
+  images: { unoptimized: true },
   async redirects() {
     const app = "https://app.suuper.cc/login";
     return [
