@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
   // Serve images as-is. The on-the-fly optimizer needs worker threads that Hostinger's shared-hosting
   // process limit doesn't allow (it returned 503 for every image); the files in public/ are already web-sized.
   images: { unoptimized: true },
+  // One worker: the hosting account's thread limit matters more than build/regeneration parallelism.
+  experimental: { cpus: 1 },
   async redirects() {
     const app = "https://app.suuper.cc/login";
     return [
