@@ -12,6 +12,47 @@ const orbit = (labels: string[]) => labels;
 const steps = (labels: string[]) => labels;
 const mock = (label: string, ask: string, reply: string): Mock => ({ label, ask, reply });
 
+/** Real product screenshots from app.suuper.cc (demo workspace with sample data), in public/screens. */
+const shot = (file: string, path: string, label: string, alt: string, caption: string) => ({ src: `/screens/${file}.webp`, path, label, alt, caption });
+export const screens = {
+  home: shot("home", "/home", "Home", "Suuper home with setup checklist and recommendations", "Home: setup checklist and next steps"),
+  inbox: shot("inbox-conversation", "/bots/conversations", "Inbox", "Conversation inbox showing a customer question and the bot's answer", "Every chat from the website, WhatsApp and Telegram in one inbox"),
+  inboxList: shot("inbox-list", "/bots/conversations", "Inbox", "Conversation inbox with filters for needs attention and taken over", "Filter what needs attention, or take over a chat"),
+  widget: shot("widget-preview", "/bots/widgets", "Website chat", "Website chat widget preview answering a delivery question", "The website chat bubble, previewed before it goes live"),
+  widgetBranded: shot("widget-branded", "/bots/widgets", "Website chat", "Branded website chat widget preview", "Your colours and logo on the chat bubble"),
+  botNew: shot("bot-new", "/bots", "Bots", "New bot setup choosing a model and knowledge base", "Pick the AI model and the knowledge your bot answers from"),
+  bots: shot("bots", "/bots", "Bots", "Bots list with a demo dental clinic assistant", "Bots, each with its own model and knowledge"),
+  knowledge: shot("knowledge", "/knowledge", "Knowledge", "Knowledge base with documents and FAQs ready", "Documents, FAQs, text and website pages, indexed automatically"),
+  knowledgeTest: shot("knowledge-test", "/knowledge/documents", "Knowledge", "Retrieval test showing which passages answer a question", "Test which passages a bot would use before customers ask"),
+  knowledgeStore: shot("knowledge-store", "/knowledge", "Knowledge", "New store catalog knowledge base from a Shopify URL", "Point it at your store and products are indexed for you"),
+  appsDiscover: shot("apps-discover", "/apps", "Apps", "Ready-made apps: ticket manager, CRM and leads, appointments, expenses", "Ready-made apps: pick one and answer a few questions"),
+  calendar: shot("app-calendar", "/apps", "Apps", "Appointments app calendar view with bookings", "Appointments land in a calendar your team can work from"),
+  bookingPage: shot("booking-page", "/apps", "Booking page", "Public booking page for a demo clinic", "A public booking page for every appointments app"),
+  bookingDone: shot("booking-confirmed", "/apps", "Booking page", "Booking request confirmed with a reference number", "Customers get a reference; you confirm on WhatsApp"),
+  appInstall: shot("app-install", "/apps", "Apps", "Installing an appointments app with custom colour and icon", "Set an app up in about a minute, in your client's colours"),
+  agents: shot("agents", "/agents", "Agents", "Agents list with a front desk agent", "Agents search your knowledge, call tools and remember the conversation"),
+  agentTemplates: shot("agent-templates", "/agents/templates", "Agents", "Agent templates for support, ticket triage, lead research and follow-ups", "Start from a ready-made agent template"),
+  agentRun: shot("agent-run", "/agents/runs", "Agents", "Agent run trace showing model calls and a knowledge search", "Every run is traced: the request, the answer and each step"),
+  workflowBuilder: shot("workflow-builder", "/workflows", "Workflows", "Workflow builder with condition, AI summary and Slack steps", "Steps: only continue if, ask AI, then act in an app"),
+  workflowTemplates: shot("workflow-templates", "/workflows", "Workflows", "New workflow templates such as leads to Slack and HubSpot", "Start from templates like new leads to Slack or HubSpot"),
+  integrations: shot("integrations", "/integrations", "Integrations", "Integrations directory with Slack, WhatsApp Business, Telegram and Discord", "Integrations across messaging, CRM, payments, scheduling and more"),
+  mcp: shot("mcp-tools", "/mcp/tools", "MCP", "MCP server tools list with a tool tester", "Connect MCP servers or build your own tools, then test them"),
+  webhooks: shot("webhooks", "/webhooks", "Webhooks", "Webhook event catalog", "Webhooks for records, conversations, agent runs and workflows"),
+  analytics: shot("analytics", "/analytics", "Analytics", "Analytics dashboard with conversations, answer rate and runs", "Conversations, answer rate and usage across bots, agents and workflows"),
+  models: shot("ai-models", "/settings/ai-models", "AI models", "AI model settings for Anthropic, OpenAI and Google Gemini", "Choose the AI provider, or use your own key"),
+  roles: shot("roles", "/settings/roles", "Roles", "Team roles: owner, admin, member and viewer", "Built-in roles, or create your own"),
+  audit: shot("audit-log", "/audit-log", "Audit log", "Audit log of workspace changes", "Who changed what, and when"),
+  usage: shot("usage", "/usage", "Usage", "Usage page showing plan limits for replies, credits and runs", "Usage against your plan, reset monthly"),
+};
+
+/** Product videos made with Remotion from the screenshots above (remotion/ in this repo), in public/videos. */
+const video = (file: string, title: string, sub: string, caption: string) => ({ src: `/videos/${file}.mp4`, poster: `/videos/${file}.jpg`, title, sub, caption });
+export const videos = {
+  overview: video("suuper-overview", "See a customer message become a booking.", "From a question at 11 pm to a confirmed appointment and a notified team, in the real product.", "Product walkthrough · demo workspace with sample data"),
+  bots: video("suuper-bots", "Build an AI assistant in minutes.", "Pick a model, add your knowledge, test the answers, then put it on your website.", "Product walkthrough · demo workspace with sample data"),
+  apps: video("suuper-apps", "Apps, agents and workflows that do the follow-up.", "Install an app, let agents work through tasks, and automate what happens next.", "Product walkthrough · demo workspace with sample data"),
+};
+
 /** Where people start: a demo for businesses, the pilot application for agencies (both on /demo). */
 const DEMO = "/demo";
 const AGENCY_APPLY = "/demo?for=agency";
@@ -22,11 +63,11 @@ const indRoute: Record<string, string> = { clinics: "clinics", ecommerce: "ecomm
 
 export const industries: Industry[] = [
   { key: "clinics", name: "Clinics & doctors", src: img("clinic-reception"), benefit: "Fees, timings and appointments.", q: "Any slot tomorrow?" },
-  { key: "ecommerce", name: "Online shops", src: img("warehouse-packing"), benefit: "Products, COD orders and order status.", q: "Is medium in stock?" },
+  { key: "ecommerce", name: "Online shops", src: img("warehouse-packing"), benefit: "Products, orders and order status.", q: "Is medium in stock?" },
   { key: "restaurants", name: "Restaurants & cafes", src: img("bistro-reservations"), benefit: "Menus, reservations and delivery.", q: "Table for 6 tonight?" },
-  { key: "realestate", name: "Real estate", src: img("apartment-viewing"), benefit: "Budget, area and viewing requests.", q: "3-bed in DHA?" },
+  { key: "realestate", name: "Real estate", src: img("apartment-viewing"), benefit: "Budget, area and viewing requests.", q: "Any 3-beds downtown?" },
   { key: "gyms", name: "Gyms & coaches", src: img("gym-floor"), benefit: "Packages, schedules and trials.", q: "Monthly fee?" },
-  { key: "local", name: "Service businesses", src: img("hvac-technician"), benefit: "Job details, complaints and tickets.", q: "AC repair in Gulberg?" },
+  { key: "local", name: "Service businesses", src: img("hvac-technician"), benefit: "Job details, complaints and tickets.", q: "AC repair today?" },
 ].map((i) => ({ ...i, href: "/industries/" + indRoute[i.key] }));
 
 // ---------- FAQs ----------
@@ -40,7 +81,7 @@ export const faqs: [string, string][] = [
   ["What happens when the bot doesn't know an answer?", "It says so politely instead of guessing. The inbox shows the questions it couldn't answer, and your team can take over any WhatsApp or Telegram chat and reply themselves."],
   ["Which AI models can I use?", "Claude, GPT, Gemini or a free local model. Use the AI credits included in your plan, or bring your own API key."],
   ["What are AI credits?", "One credit is one cent ($0.01) of AI model cost. Bigger models use more credits per reply. Free local models and your own AI keys use no credits. Each plan's credits cap its AI spend, so AI costs stay predictable."],
-  ["Does it understand Urdu and Roman Urdu?", "The AI models Suuper uses can read and reply in Urdu and Roman Urdu. Dedicated Urdu and Roman Urdu tuning and ready-made templates are on our roadmap."],
+  ["Does it work in my language?", "The AI models Suuper uses (Claude, GPT and Gemini) read and reply in most major languages, so your assistant can answer customers in the language they write in."],
   ["I run an agency. Can I resell Suuper?", "Yes. Join the agency pilot: a free agency workspace during the pilot, wholesale pricing, and hands-on help setting up your first three clients. One agency login for all clients and your own branding are being built now."],
   ["Do WhatsApp messages cost extra?", "Meta charges for some WhatsApp business conversations. Those charges are set and billed by Meta, separately from your Suuper plan."],
   ["How do I get started?", "Book a demo. During launch we set up every new business and agency personally, so your first assistant is configured with you on a call."],
@@ -89,7 +130,7 @@ export const pages: Record<string, Section[]> = {
         name: "Sample clinic", status: "AI assistant", channel: "WHATSAPP", time: "11:04 PM",
         lines: [
           { me: true, text: "How much is a check-up, and can I come tomorrow?" },
-          { me: false, text: "A check-up is PKR 2,500. Tomorrow we have 10:00 am, 12:30 pm and 4:00 pm. Which suits you?" },
+          { me: false, text: "A check-up is $80. Tomorrow we have 10:00 am, 12:30 pm and 4:00 pm. Which suits you?" },
           { me: true, text: "10 am please. Sara" },
           { me: false, check: "✓ Booked", text: "Done, Sara: check-up tomorrow at 10:00 am. We'll send a reminder in the morning." },
         ],
@@ -103,6 +144,7 @@ export const pages: Record<string, Section[]> = {
         card("AGENCIES", "Launch your own AI services business.", "Set up WhatsApp AI assistants and business apps for your clients and keep the monthly recurring revenue. Pilot agencies get a free agency workspace.", "/agencies", "See the agency pilot"),
       ], min: 320,
     },
+    { type: "video", id: "watch", kicker: "WATCH", ...videos.overview },
     {
       type: "flow", id: "how", kicker: "HOW IT WORKS", title: "One message. Three outcomes.",
       sub: "Every customer message is answered, recorded where your team can act on it, or handed over to a person.",
@@ -116,52 +158,29 @@ export const pages: Record<string, Section[]> = {
       note: "AN EXAMPLE OF HOW A SUUPER SETUP WORKS · SAMPLE BUSINESS",
     },
     {
+      type: "screens", id: "product", kicker: "THE PRODUCT", title: "One dashboard for the conversation and the work after it.",
+      sub: "Real screens from Suuper, shown with a demo workspace and sample data.",
+      items: [screens.inbox, screens.widget, screens.knowledge, screens.calendar, screens.agentRun, screens.workflowBuilder, screens.integrations, screens.analytics],
+    },
+    {
       type: "chdemo", id: "live", kicker: "CHANNELS", title: "One assistant. Every channel your customers use.",
       sub: "The same knowledge answers on WhatsApp, Telegram and your website. A scripted example for a sample store:",
       channels: [
-        { key: "whatsapp", label: "WhatsApp", who: "Customer · +92 300 ••• 412", stat: "SAMPLE", action: "LEAD SAVED IN THE LEADS APP",
-          msgs: [{ ai: false, text: "Assalam o alaikum, Karachi delivery kitne din mein?" }, { ai: true, text: "Walaikum assalam! Karachi mein 2 din, PKR 250 flat." }, { ai: false, text: "Theek hai, 2 pieces chahiye" }, { ai: true, text: "Zaroor. Sizes bata dein, main order tayyar kar deta hoon." }] },
-        { key: "web", label: "Website chat", who: "Visitor on your store", stat: "SAMPLE", action: "CASH-ON-DELIVERY ORDER CAPTURED · TEAM NOTIFIED",
-          msgs: [{ ai: false, text: "Do you have the green kurta in medium?" }, { ai: true, text: "Yes, it's in stock in medium. It's PKR 4,500 and ships to Lahore in 2 days." }, { ai: false, text: "Can I pay cash on delivery?" }, { ai: true, text: "Yes, COD is available. Shall I take your order details?" }] },
+        { key: "whatsapp", label: "WhatsApp", who: "Customer · +44 7700 ••• 412", stat: "SAMPLE", action: "LEAD SAVED IN THE LEADS APP",
+          msgs: [{ ai: false, text: "Hi! How long does delivery to Manchester take?" }, { ai: true, text: "Hi! Delivery to Manchester takes 2 working days and costs £4.50." }, { ai: false, text: "Great, I'd like 2 of the linen shirts" }, { ai: true, text: "Lovely choice. Which sizes would you like? I'll get the order ready." }] },
+        { key: "web", label: "Website chat", who: "Visitor on your store", stat: "SAMPLE", action: "ORDER DETAILS CAPTURED · TEAM NOTIFIED",
+          msgs: [{ ai: false, text: "Do you have the green linen shirt in medium?" }, { ai: true, text: "Yes, it's in stock in medium. It's $45 and ships in 2 days." }, { ai: false, text: "Can I return it if it doesn't fit?" }, { ai: true, text: "Yes, free returns within 30 days. Shall I take your order details?" }] },
         { key: "telegram", label: "Telegram", who: "Customer via your Telegram bot", stat: "SAMPLE", action: "HANDED TO THE TEAM IN THE INBOX",
           msgs: [{ ai: false, text: "I want to return an order" }, { ai: true, text: "Sorry about that. Can you share your order number?" }, { ai: false, text: "#1987" }, { ai: true, text: "Thanks. I've passed this to our team with your order number, and they'll reply here shortly." }] },
       ],
     },
     {
-      type: "bento", id: "platform", kicker: "THE PLATFORM", title: "Conversations that turn into ", accent: "business actions.",
-      sub: "One dashboard to answer customers and run the work that follows.",
-      items: [
-        { title: "Bots", body: "Your AI assistant: a name, instructions and your business information. Test it in the Playground first.", href: "/chat", tone: "paper", icon: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" },
-        { title: "Inbox", body: "Every chat in one place. See where the bot couldn't answer and take over any chat.", href: "/inbox", tone: "dark", icon: "M22 12h-6l-2 3h-4l-2-3H2 M5.5 5h13L22 12v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6z" },
-        { title: "Knowledge", body: "PDFs, FAQs, pasted text, your website or your online store.", href: "/knowledge", tone: "teal", icon: "M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5" },
-        { title: "Business apps", body: "Leads & CRM, tickets, appointments and expenses, each with records, a dashboard and public forms.", href: "/apps", tone: "peach", icon: "M3 3h7v7H3z M14 3h7v7h-7z M3 14h7v7H3z M14 14h7v7h-7z" },
-        { photo: img("clinic-reception"), ask: "“Any slot tomorrow?”", answer: "Booked in Appointments" },
-        { title: "Agents", body: "AI helpers that look up an order, update the CRM or write a follow-up, on demand or on a schedule.", href: "/agents", tone: "teal", icon: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M4 21a8 8 0 0 1 16 0" },
-        { title: "Workflows", body: "When this happens, do that: a new lead sends a Slack message and an email.", href: "/workflows", tone: "dark", icon: "M5 6h4v4H5z M15 14h4v4h-4z M9 8h3a2 2 0 0 1 2 2v4a2 2 0 0 0 2 2" },
-        { title: "Integrations", body: "Slack, email, Shopify, HubSpot and Google, so bots and agents can act in them.", href: "/connectors", tone: "dark", icon: "M9 7H6a5 5 0 0 0 0 10h3 M15 7h3a5 5 0 0 1 0 10h-3 M8 12h8" },
-        { title: "Any AI model", body: "Claude, GPT, Gemini or a free local model. Use Suuper's credits or your own key.", href: "/pricing", tone: "paper", icon: "M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z" },
-      ],
-    },
-    {
-      type: "wfanim", id: "builder", kicker: "WORKFLOWS", title: "When this happens, do that.",
-      sub: "Workflows run the follow-up for you, every time, using the apps and tools you connect.",
-      prompt: "When a booking is made on WhatsApp, email the receptionist and send the customer a reminder the next morning.",
-      nodes: [
-        { tag: "TRIGGER", t: "New WhatsApp message", meta: "Customer asks for a slot", icon: "whatsapp" },
-        { tag: "AI STEP", t: "Answer from knowledge", meta: "Fees and open slots", icon: "" },
-        { tag: "APP", t: "Create appointment", meta: "Appointments app", icon: "" },
-        { tag: "NOTIFY", t: "Email the receptionist", meta: "Email", icon: "gmail" },
-        { tag: "FOLLOW-UP", t: "Morning reminder", meta: "WhatsApp", icon: "whatsapp" },
-      ],
-      log: ["23:04:12  TRIGGER   WhatsApp message from Sara", "23:04:13  AI        Answered fee + 3 open slots", "23:04:41  APP       Appointment created · 10:00", "23:04:41  EMAIL     Receptionist notified", "08:00:00  WHATSAPP  Reminder sent"],
-    },
-    {
       type: "slider", id: "before-after", kicker: "BEFORE / AFTER", title: "Same messages. Very different night.", sub: "Drag the handle to see 11 pm with and without an assistant. Sample conversations.",
       rows: [
-        { n: "Ali R.", ch: "WhatsApp", m: "Karachi delivery kitne din?", t: "11:09 PM", r: "2 din, PKR 250 flat. Order kar doon?" },
-        { n: "Mehwish", ch: "Website", m: "Is medium in stock?", t: "11:15 PM", r: "Yes, medium is in stock. Want to order?" },
-        { n: "Usman A.", ch: "WhatsApp", m: "Need 50 pieces for an event", t: "11:31 PM", r: "Saved as a wholesale lead. The team will call you." },
-        { n: "Hamza", ch: "Telegram", m: "COD available?", t: "11:48 PM", r: "Yes, cash on delivery is available." },
+        { n: "Maria G.", ch: "WhatsApp", m: "How long is delivery?", t: "11:09 PM", r: "2 working days, free over $50. Shall I order?" },
+        { n: "James", ch: "Website", m: "Is medium in stock?", t: "11:15 PM", r: "Yes, medium is in stock. Want to order?" },
+        { n: "Priya S.", ch: "WhatsApp", m: "Need 50 pieces for an event", t: "11:31 PM", r: "Saved as a wholesale lead. The team will call you." },
+        { n: "Lucas", ch: "Telegram", m: "Do you take card payments?", t: "11:48 PM", r: "Yes, all major cards are accepted." },
       ],
       before: "4 UNREAD · REPLIES TOMORROW", after: "4 ANSWERED · 1 LEAD SAVED",
     },
@@ -173,11 +192,11 @@ export const pages: Record<string, Section[]> = {
       photo: img("creative-studio"), mock: mock("AGENCY PILOT", "Can I set this up for my clients?", "Yes. Apply and we'll set up your first three clients with you."),
     },
     {
-      type: "split", flip: true, id: "models", kicker: "ANY AI MODEL", title: "Choose the AI. Keep the cost capped.",
+      type: "shot", flip: true, id: "models", kicker: "ANY AI MODEL", title: "Choose the AI. Keep the cost capped.",
       body: "Pick Claude, GPT, Gemini or a free local model for each bot. Use the AI credits included in your plan, or bring your own API key. Credits cap each plan's AI spend, so a busy month doesn't turn into a surprise AI bill.",
       points: ["1 AI credit = $0.01 of AI model cost", "Free local models use no credits", "Your own API keys use no credits"],
       ctas: [btn("See plans", "/pricing", "primary")],
-      photo: img("coding-workspace"), mock: mock("AI MODEL", "Which model answers my customers?", "Your choice: Claude, GPT, Gemini or a local model."),
+      screen: screens.models,
     },
     { type: "roi", title: "Count what silence costs you.", sub: "Move the sliders to estimate how much revenue unanswered messages could be costing you. An estimate, not a promise.", cta: "Book a demo" },
     { type: "industries", title: "Built for businesses that live on WhatsApp.", sub: "Clinics, shops, restaurants, real estate, salons, schools and service businesses.", note: "DON'T SEE YOUR BUSINESS? SUUPER LEARNS FROM THE INFORMATION YOU GIVE IT." },
@@ -227,6 +246,14 @@ export const pages: Record<string, Section[]> = {
       ],
     },
     {
+      type: "shot", kicker: "SET UP A CLIENT", title: "A client's booking app, in their colours, in minutes.",
+      body: "Install a ready-made app for a client, give it their name, colour and icon, and start with sample data so the dashboard looks alive from day one. Their customers get a public booking page.",
+      points: ["Ready-made apps: appointments, CRM & leads, tickets, expenses", "Client's own name, colour and icon on the app", "Public booking page for their customers"],
+      ctas: [btn("Apply for the pilot", AGENCY_APPLY, "primary")],
+      screen: screens.appInstall,
+    },
+    { type: "video", kicker: "WATCH", ...videos.apps },
+    {
       type: "table", kicker: "WHAT'S READY, WHAT'S COMING", title: "We'll always tell you which is which.", head: ["CAPABILITY", "STATUS"],
       rows: [
         ["Bots with your clients' knowledge", "Available"],
@@ -271,17 +298,29 @@ export const pages: Record<string, Section[]> = {
       type: "hero", title: "An AI assistant on your WhatsApp, Telegram and website.",
       body: "Give it a name, instructions and your business information, and it answers customers in your voice, day and night. When a person is needed, it hands the chat to your team.",
       ctas: [btn("Book a demo", DEMO, "dark"), btn("See a demo", "/chat#demo", "outlineDark")],
-      mock: { status: "WHATSAPP", sub: "Sample store · knowledge connected", ask: "Do you have the gold kurta in medium?", reply: "Yes, medium is in stock: PKR 4,500. Want me to take your order?", time: "SAMPLE CONVERSATION" },
+      mock: { status: "WHATSAPP", sub: "Sample store · knowledge connected", ask: "Do you have the linen shirt in medium?", reply: "Yes, medium is in stock: $45. Want me to take your order?", time: "SAMPLE CONVERSATION" },
       orbit: orbit(["PRICES", "FAQS", "TIMINGS", "DELIVERY", "POLICIES", "CATALOGUE"]),
     },
     {
       type: "groups", kicker: "CAPABILITIES", title: "What it knows. What it does.",
       groups: [
-        { label: "WHAT IT KNOWS", items: ["Your prices and services", "FAQs you add", "PDFs and documents", "Text you paste in", "Your website", "Your online store's catalogue", "Your instructions and tone of voice"] },
+        { label: "WHAT IT KNOWS", items: ["Your prices and services", "FAQs you add", "PDFs and documents", "Text you paste in", "Your website", "Your online store's catalogue (Shopify, WooCommerce and more)", "Your instructions and tone of voice"] },
         { label: "WHAT IT DOES", items: ["Answers customer questions", "Recommends products from your catalogue", "Captures leads into your apps", "Books appointments", "Says so when it doesn't know", "Hands the chat to your team"] },
       ],
     },
-    { type: "demo", id: "demo", kicker: "DEMO", title: "See how a Suuper assistant replies.", body: "A scripted demo for a sample store: it answers from the store's own information and passes the tricky ones to the team." },
+    { type: "video", id: "demo", kicker: "WATCH", ...videos.bots },
+    {
+      type: "shot", kicker: "SET UP", title: "Pick a model. Pick the knowledge.",
+      body: "Each bot has its own instructions, AI model and knowledge bases. Try it in the Playground before customers see it.",
+      points: ["Claude, GPT, Gemini or a free local model", "Answers only from the knowledge you attach", "Test it in the Playground first"],
+      ctas: [], screen: screens.botNew,
+    },
+    {
+      type: "shot", flip: true, kicker: "WEBSITE CHAT", title: "Your chat bubble, your brand.",
+      body: "Turn on the widget, choose the sites it may run on, style it with your colours and logo, and paste one line of code.",
+      points: ["One-line embed snippet", "Your colours and logo", "Live preview before it goes live"],
+      ctas: [], screen: screens.widgetBranded,
+    },
     {
       type: "cards", kicker: "CHANNELS", title: "One assistant. Every channel your customers use.",
       items: [
@@ -313,10 +352,15 @@ export const pages: Record<string, Section[]> = {
       type: "hero", title: "Every customer conversation, in one inbox.",
       body: "WhatsApp, Telegram and website chats in one place. Search and filter, see where the bot couldn't answer, and take over any chat when a person is needed.",
       ctas: [btn("Book a demo", DEMO, "dark"), btn("I run an agency", "/agencies", "outlineDark")],
-      mock: { status: "INBOX", sub: "WhatsApp · Telegram · Website", ask: "Ali · WhatsApp · wants 50 units wholesale", reply: "Bot couldn't quote wholesale → flagged for the team", time: "TAKE OVER IN ONE CLICK" },
+      mock: { status: "INBOX", sub: "WhatsApp · Telegram · Website", ask: "Priya · WhatsApp · wants 50 units wholesale", reply: "Bot couldn't quote wholesale → flagged for the team", time: "TAKE OVER IN ONE CLICK" },
       orbit: orbit(["WHATSAPP", "TELEGRAM", "WEBSITE"]),
     },
-    { type: "inbox", kicker: "PRODUCT", title: "Your team sees the whole picture." },
+    {
+      type: "shot", kicker: "THE INBOX", title: "Your team sees the whole picture.",
+      body: "Open any conversation to see what the customer asked and what the bot answered. Filter to the chats that need attention, or the ones a person has taken over.",
+      points: ["All, needs attention and taken over", "Search messages, numbers and sites", "Filter by bot and channel"],
+      ctas: [], screen: screens.inbox,
+    },
     { type: "chips", kicker: "INBOX", title: "What the inbox does.", items: ["Every chat in one place", "WhatsApp, Telegram and website", "Search and filter", "See where the bot couldn't answer", "Take over WhatsApp and Telegram chats", "Full conversation history"] },
     cta("Never lose a customer conversation again.", "Book a demo to see the inbox with your own channels."),
   ],
@@ -332,10 +376,21 @@ export const pages: Record<string, Section[]> = {
     { type: "chips", kicker: "KNOWLEDGE SOURCES", title: "Add what your team already uses.", items: ["PDFs and documents", "FAQs", "Pasted text", "Your website", "Your online store's catalogue"] },
     { type: "flow", id: "flow", kicker: "HOW IT LEARNS", title: "From your documents to a trusted answer.", steps: steps(["Add knowledge", "Test in the Playground", "Go live on your channels"]) },
     {
+      type: "shot", kicker: "KNOWLEDGE BASES", title: "Everything your bots know, in one place.",
+      body: "Add documents, FAQs, text and website pages, or a store's product catalogue. Everything is indexed automatically.",
+      points: ["Documents & FAQs", "Store catalogues from Shopify, WooCommerce and other stores", "Ready to use as soon as it's indexed"],
+      ctas: [], screen: screens.knowledge,
+    },
+    {
+      type: "shot", flip: true, kicker: "TEST IT", title: "See exactly what a bot would read.",
+      body: "Ask a question and see which passages match, and how strongly. If nothing relevant comes up, the answer is missing from your knowledge.",
+      points: [], ctas: [], screen: screens.knowledgeTest,
+    },
+    {
       type: "split", kicker: "TRUST", title: "When it doesn't know, it says so.",
       body: "Answers come from your own information. If something isn't there, the assistant says so politely instead of guessing, and the inbox flags the question for your team.",
       points: [], ctas: [btn("Book a demo", DEMO, "primary")],
-      photo: img("paperwork-to-digital"), mock: mock("NOT IN KNOWLEDGE", "Do you deliver to Gwadar?", "I don't have that information. I've asked the team to reply."),
+      photo: img("paperwork-to-digital"), mock: mock("NOT IN KNOWLEDGE", "Do you deliver to Iceland?", "I don't have that information. I've asked the team to reply."),
     },
     cta("Your knowledge, answering customers.", "Book a demo and bring your price list and FAQs."),
   ],
@@ -357,7 +412,22 @@ export const pages: Record<string, Section[]> = {
         card("EXP", "Expenses", "Simple records for the money going out."),
       ], min: 240,
     },
-    { type: "chips", kicker: "EVERY APP HAS", title: "Built in.", items: ["Its own records", "A dashboard", "Public forms", "Bot access to create records", "Workflow triggers"] },
+    {
+      type: "shot", kicker: "READY-MADE APPS", title: "Pick an app. Answer a few questions.",
+      body: "Ticket manager, CRM & leads, appointments & bookings, expense tracker and more. Each comes with its own dashboard, views and public page.",
+      points: [], ctas: [], screen: screens.appsDiscover,
+    },
+    {
+      type: "shot", flip: true, kicker: "APPOINTMENTS", title: "Bookings your whole team can see.",
+      body: "Calendar, today's list, a status board and every appointment, with sample data to start and CSV export.",
+      points: [], ctas: [], screen: screens.calendar,
+    },
+    {
+      type: "screens", kicker: "PUBLIC BOOKING PAGE", title: "Let customers book themselves.",
+      sub: "Every appointments app gets a public booking page. Customers request a time and get a reference.",
+      items: [{ ...screens.bookingPage, label: "Booking form" }, { ...screens.bookingDone, label: "Confirmation" }],
+    },
+    { type: "chips", kicker: "EVERY APP HAS", title: "Built in.", items: ["Its own records", "A dashboard", "Public forms", "Ask AI about your records", "Bot access to create records", "Workflow triggers"] },
     cta("Stop losing leads in chat threads.", "Book a demo to see your leads and bookings land in apps automatically."),
   ],
 
@@ -379,10 +449,20 @@ export const pages: Record<string, Section[]> = {
       ], min: 240,
     },
     {
+      type: "shot", kicker: "TEMPLATES", title: "Start from a ready-made agent.",
+      body: "Support assistant, ticket triage, lead researcher, follow-up writer and more. Pick one, adjust it, and it's yours.",
+      points: [], ctas: [], screen: screens.agentTemplates,
+    },
+    {
+      type: "shot", flip: true, kicker: "RUNS", title: "See every step an agent took.",
+      body: "Each run shows the request, the answer, how long it took, the tokens used, and every model call and tool call along the way.",
+      points: [], ctas: [], screen: screens.agentRun,
+    },
+    {
       type: "split", kicker: "CONTROL", title: "Your team stays in control.",
       body: "Agents work with the tools you connect. Team roles decide who can set them up, and the audit log records every change.",
       points: ["Agents use only the tools you connect", "Team roles and permissions", "Audit log of every change"], ctas: [btn("Security", "/security", "primary")],
-      photo: img("refund-approval"), mock: mock("AUDIT LOG", "Agent updated lead · Ahmed Traders", "Recorded with time and user"),
+      photo: img("refund-approval"), mock: mock("AUDIT LOG", "Agent updated lead · Northwind Traders", "Recorded with time and user"),
     },
     cta("Hand the follow-up to an agent.", "Book a demo to see agents working on your own leads."),
   ],
@@ -404,27 +484,47 @@ export const pages: Record<string, Section[]> = {
         { name: "Complaint", steps: ["Ticket created", "Team notified", "Customer kept updated"] },
       ],
     },
+    {
+      type: "shot", kicker: "BUILDER", title: "Step by step, no code.",
+      body: "Start from a trigger, add conditions like \"only continue if\", ask AI to summarise or decide, then act in your apps and tools.",
+      points: [], ctas: [], screen: screens.workflowBuilder,
+    },
+    {
+      type: "shot", flip: true, kicker: "TEMPLATES", title: "Start from a template.",
+      body: "Send new website leads to Slack, save leads to HubSpot, welcome new leads on WhatsApp, a daily AI email, support triage and more.",
+      points: [], ctas: [], screen: screens.workflowTemplates,
+    },
     cta("Automate the follow-up.", "Book a demo and tell us the one thing your team does by hand every day."),
   ],
 
   connectors: [
     {
       type: "hero", title: "Connect the tools your business already uses.",
-      body: "Integrations let bots, agents and workflows act in your other tools: post to Slack, send an email, check your Shopify store, update HubSpot, use Google.",
+      body: "Integrations let bots, agents and workflows act in your other tools: post to Slack, send an email, check your Shopify store, update HubSpot, use Google. Connect MCP servers for anything else, and send events out with webhooks.",
       ctas: [btn("Book a demo", DEMO, "dark"), btn("See integrations", "/connectors#cats", "outlineDark")],
-      mock: { status: "INTEGRATIONS", sub: "Slack · Email · Shopify · HubSpot · Google", ask: "New lead: Ahmed Traders", reply: "Added to HubSpot and posted to #sales.", time: "SAMPLE WORKFLOW" },
+      mock: { status: "INTEGRATIONS", sub: "Slack · Email · Shopify · HubSpot · Google", ask: "New lead: Northwind Traders", reply: "Added to HubSpot and posted to #sales.", time: "SAMPLE WORKFLOW" },
       orbit: orbit(["SLACK", "EMAIL", "SHOPIFY", "HUBSPOT", "GOOGLE"]),
     },
     {
       type: "connectors", id: "cats", kicker: "INTEGRATIONS", title: "Available integrations",
       cats: [
         { name: "Customer channels", tools: ["WhatsApp", "Telegram", "Website chat"] },
-        { name: "Team", tools: ["Slack", "Email"] },
+        { name: "Team", tools: ["Slack", "Discord", "Email"] },
         { name: "Commerce", tools: ["Shopify"] },
         { name: "CRM", tools: ["HubSpot"] },
         { name: "Productivity", tools: ["Google"] },
-        { name: "Developers", tools: ["API keys"] },
+        { name: "Developers", tools: ["MCP servers", "Webhooks", "API keys"] },
       ],
+    },
+    {
+      type: "shot", kicker: "INTEGRATIONS", title: "Connect a tool once. Use it everywhere.",
+      body: "Credentials are encrypted and only used by your bots and agents. Integrations cover messaging, email, CRM, customer support, e-commerce, payments, scheduling and more.",
+      points: [], ctas: [], screen: screens.integrations,
+    },
+    {
+      type: "screens", kicker: "FOR DEVELOPERS", title: "MCP servers and webhooks.",
+      sub: "Connect any MCP server, or build your own tools and test them with real arguments. Webhooks send events to your systems.",
+      items: [screens.mcp, screens.webhooks],
     },
     { type: "flow", kicker: "EXAMPLE", title: "From new lead to follow-up, without copy-paste.", steps: steps(["Lead on WhatsApp", "Saved in Leads", "Added to HubSpot", "Slack alert", "Follow-up email"]) },
     cta("Your tools, working with your AI.", "Book a demo and tell us which tools you use."),
@@ -435,20 +535,25 @@ export const pages: Record<string, Section[]> = {
       type: "hero", title: "Built for businesses that live on WhatsApp.",
       body: "Clinics, shops, restaurants, property agents, salons, schools and service businesses get dozens of messages a day. Suuper answers them and records what matters.",
       ctas: [btn("Book a demo", DEMO, "dark"), btn("I run an agency", "/agencies", "outlineDark")],
-      mock: { status: "SAMPLE CONVERSATION", sub: "Service business · WhatsApp", ask: "AC repair in Gulberg today?", reply: "Yes. Share your address and a time that suits you, and I'll log the job.", time: "TICKET CREATED" },
+      mock: { status: "SAMPLE CONVERSATION", sub: "Service business · WhatsApp", ask: "Can you fix my AC today?", reply: "Yes. Share your address and a time that suits you, and I'll log the job.", time: "TICKET CREATED" },
       orbit: orbit(["CLINICS", "SHOPS", "RESTAURANTS", "REAL ESTATE", "GYMS", "SERVICES"]),
     },
     { type: "split", kicker: "CLINICS", title: "Turn questions into appointments.", body: "", points: ["Fees and timings", "Services", "Open slots", "Appointment booking", "Reminders", "Handover to reception"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("clinic-reception"), mock: mock("CLINIC · WHATSAPP", "Any slot tomorrow?", "10:00 am or 4:00 pm. Shall I book one?") },
-    { type: "split", flip: true, kicker: "ONLINE SHOPS", title: "Answer product questions and capture the order.", body: "", points: ["Product recommendations from your catalogue", "Stock and sizing", "Delivery questions", "Cash-on-delivery orders", "\"Where is my order?\"", "Handover to your team"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("warehouse-packing"), mock: mock("STORE · WHATSAPP", "Is medium in stock?", "Yes, medium is in stock. Want to order?") },
+    { type: "split", flip: true, kicker: "ONLINE SHOPS", title: "Answer product questions and capture the order.", body: "", points: ["Product recommendations from your catalogue", "Stock and sizing", "Delivery and returns", "Order capture", "\"Where is my order?\"", "Handover to your team"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("warehouse-packing"), mock: mock("STORE · WHATSAPP", "Is medium in stock?", "Yes, medium is in stock. Want to order?") },
     { type: "split", kicker: "RESTAURANTS", title: "Menus, reservations and delivery, answered.", body: "", points: ["Menu questions", "Table reservations", "Timings", "Delivery questions", "Location"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("bistro-reservations"), mock: mock("RESTAURANT · WHATSAPP", "Table for 6 tonight?", "8:30 pm is free. Name for the booking?") },
-    { type: "split", flip: true, kicker: "REAL ESTATE", title: "From property question to viewing.", body: "", points: ["Budget, area and property type", "Viewing requests", "Lead capture", "Hot leads to an agent"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("apartment-viewing"), mock: mock("PROPERTY · WHATSAPP", "3-bed in DHA?", "What's your budget? I'll match options and book a viewing.") },
-    { type: "split", kicker: "GYMS & COACHES", title: "Turn membership questions into trial sign-ups.", body: "", points: ["Packages and fees", "Schedules", "Trial sign-ups", "Lead capture"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("gym-floor"), mock: mock("GYM · WEBSITE", "Monthly fee?", "PKR 6,000. Want to book a trial session?") },
-    { type: "split", flip: true, kicker: "SERVICE BUSINESSES", title: "Get the details before anyone picks up the phone.", body: "", points: ["Service type and location", "Job details", "Complaints logged as tickets", "Customers kept updated"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("hvac-technician"), mock: mock("SERVICES · WHATSAPP", "AC repair in Gulberg?", "Yes. What's the address and AC model?") },
+    { type: "split", flip: true, kicker: "REAL ESTATE", title: "From property question to viewing.", body: "", points: ["Budget, area and property type", "Viewing requests", "Lead capture", "Hot leads to an agent"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("apartment-viewing"), mock: mock("PROPERTY · WHATSAPP", "Any 3-beds downtown?", "What's your budget? I'll match options and book a viewing.") },
+    { type: "split", kicker: "GYMS & COACHES", title: "Turn membership questions into trial sign-ups.", body: "", points: ["Packages and fees", "Schedules", "Trial sign-ups", "Lead capture"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("gym-floor"), mock: mock("GYM · WEBSITE", "Monthly fee?", "$60 a month. Want to book a free trial session?") },
+    { type: "split", flip: true, kicker: "SERVICE BUSINESSES", title: "Get the details before anyone picks up the phone.", body: "", points: ["Service type and location", "Job details", "Complaints logged as tickets", "Customers kept updated"], ctas: [btn("Book a demo", DEMO, "primary")], photo: img("hvac-technician"), mock: mock("SERVICES · WHATSAPP", "Can you fix my AC today?", "Yes. What's the address and AC model?") },
     finalCta,
   ],
 
   pricing: [
     { type: "pricing", title: "Simple plans. Capped AI costs.", sub: "Every plan includes the full platform and a monthly budget of AI credits, so your AI bill can't run away. Agencies get wholesale pricing through the pilot." },
+    {
+      type: "shot", kicker: "USAGE", title: "Always know where you stand.",
+      body: "See replies, AI credits, agent runs and workflow runs against your plan. Limits reset on the 1st of every month.",
+      points: [], ctas: [], screen: screens.usage,
+    },
     { type: "roi", title: "Count what silence costs you.", sub: "Move the sliders to estimate how much revenue unanswered messages could be costing you. An estimate, not a promise.", cta: "Book a demo" },
     { type: "faq", title: "Pricing questions.", items: [faqs[7], faqs[6], faqs[10], faqs[9], faqs[11], ["Can I pay quarterly, half-yearly or yearly?", "Yes. Pay for 3 months and save 10%, 6 months and save 15%, or a full year and get 2 months free. Your AI credits still reset every month."], ["Can I change plans later?", "Yes. Talk to us and we'll move you to the plan that fits your volume."]] },
     finalCta,
@@ -473,15 +578,19 @@ export const pages: Record<string, Section[]> = {
         card("KB", "Answers from your information", "The assistant answers from your own knowledge and says so when it doesn't know."),
       ], min: 250,
     },
+    {
+      type: "screens", kicker: "IN THE PRODUCT", title: "Roles and an audit log, built in.",
+      items: [screens.roles, screens.audit],
+    },
     cta("Questions about your data?", "Talk to us about roles, data handling and how your assistant answers.", [btn("Talk to us", "/contact", "dark"), btn("Book a demo", DEMO, "outlineDark")]),
   ],
 
   about: [
     {
       type: "hero", title: "AI employees for the businesses that run on WhatsApp.",
-      body: "In Pakistan, the Gulf, South Asia and Africa, customers do business on WhatsApp, and small businesses can't keep up. We're building Suuper so every one of them can answer every customer.",
+      body: "Across Europe, Latin America, the Middle East, Africa and Asia, customers expect to message a business and get an answer. Small businesses can't keep up. We're building Suuper so every one of them can answer every customer.",
       ctas: [btn("Talk to us", "/contact", "dark"), btn("For agencies", "/agencies", "outlineDark")],
-      mock: { status: "OUR MISSION", sub: "Starting in Pakistan, then the Gulf", ask: "What is Suuper?", reply: "An AI employee that answers customers and records the work that follows.", time: "SUUPER.CC" },
+      mock: { status: "OUR MISSION", sub: "For businesses that run on messaging", ask: "What is Suuper?", reply: "An AI employee that answers customers and records the work that follows.", time: "SUUPER.CC" },
       orbit: orbit(["WHATSAPP", "SMALL BUSINESS", "AGENCIES", "AI"]),
     },
     { type: "story", kicker: "WHY WE BUILT IT", lines: ["Messages pile up and late replies lose sales.", "Leads, bookings and complaints live in chat threads.", "Hiring someone to answer costs more than most small businesses can afford.", "And most AI tools are built for websites, priced for Western companies.", "That's why we built Suuper."] },
@@ -536,16 +645,25 @@ const Y = (t: string) => ({ t, on: true });
 /** Retail plans. 1 AI credit = $0.01 of AI provider cost; credits cap each plan's AI spend. */
 export const plans: Plan[] = [
   {
-    name: "Starter", n: 97, desc: "One business getting started with AI on WhatsApp.", credits: 1500, replies: "2,000", bots: 3, seats: 3,
-    groups: [{ label: "AI COST CAP", items: [Y("AI spend capped at $15 a month"), Y("Own AI keys and local models use no credits")] }],
+    name: "Starter", n: 97, desc: "One location getting started with an AI assistant.", credits: 1500, replies: "2,000", bots: 3, seats: 3,
+    groups: [
+      { label: "ALSO EACH MONTH", items: [Y("300 agent runs"), Y("2,000 workflow runs"), Y("100 MB knowledge storage"), Y("10,000 app records")] },
+      { label: "AI COST CAP", items: [Y("AI spend capped at $15 a month"), Y("Own AI keys and local models use no credits")] },
+    ],
   },
   {
-    name: "Growth", n: 297, desc: "Busy businesses with several channels and a team.", credits: 6000, replies: "10,000", bots: 10, seats: 10,
-    groups: [{ label: "AI COST CAP", items: [Y("AI spend capped at $60 a month"), Y("Own AI keys and local models use no credits")] }],
+    name: "Growth", n: 297, desc: "A growing business with steady customer traffic.", credits: 6000, replies: "10,000", bots: 10, seats: 10,
+    groups: [
+      { label: "ALSO EACH MONTH", items: [Y("1,500 agent runs"), Y("10,000 workflow runs"), Y("500 MB knowledge storage"), Y("50,000 app records")] },
+      { label: "AI COST CAP", items: [Y("AI spend capped at $60 a month"), Y("Own AI keys and local models use no credits")] },
+    ],
   },
   {
-    name: "Pro", n: 497, desc: "High-volume businesses and multi-location teams.", credits: 15000, replies: "50,000", bots: 25, seats: 25,
-    groups: [{ label: "AI COST CAP", items: [Y("AI spend capped at $150 a month"), Y("Own AI keys and local models use no credits")] }],
+    name: "Pro", n: 497, desc: "High volume, several teams or locations.", credits: 15000, replies: "50,000", bots: 25, seats: 25,
+    groups: [
+      { label: "ALSO EACH MONTH", items: [Y("5,000 agent runs"), Y("50,000 workflow runs"), Y("2 GB knowledge storage"), Y("250,000 app records")] },
+      { label: "AI COST CAP", items: [Y("AI spend capped at $150 a month"), Y("Own AI keys and local models use no credits")] },
+    ],
   },
 ];
 export const popularPlan = "Growth";
@@ -564,7 +682,8 @@ export const planIncludes = [
   "Knowledge from documents, FAQs, websites and stores",
   "Business apps: leads & CRM, tickets, appointments, expenses",
   "AI agents with tools and schedules",
-  "Workflows and integrations",
+  "Workflows, integrations, MCP servers and webhooks",
+  "Analytics and usage tracking",
   "Claude, GPT, Gemini or free local models",
   "Team roles, audit log and API keys",
 ];
@@ -602,7 +721,7 @@ export const industryGroups: MegaGroup[] = [
 ];
 export const industryChips: Record<string, string[]> = {
   clinics: ["Fees & timings", "Appointments", "Reminders"],
-  ecommerce: ["Products", "COD orders", "Order status"],
+  ecommerce: ["Products", "Orders", "Order status"],
   restaurants: ["Menu", "Reservations", "Delivery"],
   realestate: ["Budget & area", "Viewings", "Hot leads"],
   gyms: ["Packages", "Schedules", "Trials"],
@@ -629,7 +748,7 @@ export const footer: FooterColumn[] = [
 
 const indCopy: Record<string, [string, string, string[]]> = {
   clinics: ["clinics", "Patients ask about fees, timings and availability at all hours. Suuper answers on WhatsApp, books the appointment and lets your reception take over when needed.", ["Patient asks", "Fees & open slots", "Picks a time", "Appointment booked", "Reception notified", "Reminder sent"]],
-  ecommerce: ["online shops", "Suuper recommends products from your catalogue, answers stock and delivery questions, confirms cash-on-delivery orders and answers \"where is my order?\"", ["Shopper asks", "Checks catalogue", "Answers price & stock", "Captures the order", "Saved as a lead", "Team confirms"]],
+  ecommerce: ["online shops", "Suuper recommends products from your catalogue, answers stock and delivery questions, captures orders and answers \"where is my order?\"", ["Shopper asks", "Checks catalogue", "Answers price & stock", "Captures the order", "Saved as a lead", "Team confirms"]],
   restaurants: ["restaurants", "Menu, timings, reservations and delivery questions answered instantly on WhatsApp, even during the dinner rush.", ["Guest asks", "Shares menu & hours", "Takes reservation", "Confirms party size", "Reservation recorded", "Host notified"]],
   realestate: ["property agents", "Suuper asks budget, area and property type, books viewings and hands hot leads to an agent.", ["Buyer asks", "Budget, area, type", "Saves the lead", "Books a viewing", "Routes to an agent", "Agent follows up"]],
   gyms: ["gyms and coaches", "Suuper explains packages, schedules and trials, and turns interest into trial sign-ups.", ["Prospect asks", "Shares packages", "Answers schedule", "Offers a trial", "Saves the lead", "Coach follows up"]],
@@ -684,7 +803,7 @@ export const articles: Article[] = [
     sections: [
       ["Price and availability", "1. How much is it? 2. Is it in stock? Answer with the current price and size or slot availability."],
       ["Delivery", "3. Do you deliver to my city? 4. How long will it take? 5. How much is delivery?"],
-      ["Policies", "6. What's your return or cancellation policy? 7. Do you offer cash on delivery or instalments?"],
+      ["Policies", "6. What's your return or cancellation policy? 7. Which payment methods do you accept?"],
       ["Timings and location", "8. Are you open today? 9. Where are you located?"],
       ["The handoff question", "10. Can someone call me? This is a buying signal. Capture the number and route it to your team straight away."],
     ] },

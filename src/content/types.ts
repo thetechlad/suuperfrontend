@@ -189,7 +189,28 @@ export type StatusSection = Base & {
   incidents: [string, string, string][];
 };
 
+/** A real product screenshot (files in public/screens). */
+export type Screen = { src: string; alt: string; label: string; caption: string; path: string };
+/** Tabbed tour of product screenshots. */
+export type ScreensSection = Base & { type: "screens"; kicker: string; title: string; sub?: string; items: Screen[] };
+/** Text beside one framed product screenshot. */
+export type ShotSection = Base & {
+  type: "shot";
+  flip?: boolean;
+  kicker: string;
+  title: string;
+  body: string;
+  points: string[];
+  ctas: Cta[];
+  screen: Screen;
+};
+/** A product video (files in public/videos). */
+export type VideoSection = Base & { type: "video"; kicker: string; title: string; sub?: string; src: string; poster: string; caption: string };
+
 export type Section =
+  | ScreensSection
+  | ShotSection
+  | VideoSection
   | HeroSection
   | MarqueeSection
   | ProblemSection

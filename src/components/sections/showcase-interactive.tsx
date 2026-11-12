@@ -426,6 +426,8 @@ export function Book({ s }: { s: BookSection }) {
   const [done, setDone] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  // Slots are shown in the visitor's own timezone.
+  const tzLabel = useSyncExternalStore(noSubscribe, () => Intl.DateTimeFormat().resolvedOptions().timeZone.replace(/_/g, " "), () => "LOCAL");
 
   const base = today ?? new Date(2026, 0, 1);
   const first = new Date(base.getFullYear(), base.getMonth() + month, 1);
@@ -482,7 +484,7 @@ export function Book({ s }: { s: BookSection }) {
               <span className="grid size-14 place-items-center rounded-full bg-teal text-[26px] font-bold">✓</span>
               <h2 className="font-display text-[40px] font-semibold tracking-[-.04em]">Request received.</h2>
               <p className="text-base leading-[1.55] text-ink/70">
-                {date && time ? `You asked for ${longDate} at ${time} PKT. ` : ""}We&apos;ll reply by email to confirm a time that works.
+                {date && time ? `You asked for ${longDate} at ${time} (${tzLabel}). ` : ""}We&apos;ll reply by email to confirm a time that works.
               </p>
               <Link href="/" className="mt-2 rounded-full border border-ink/30 px-[18px] py-[11px] text-sm font-semibold text-ink hover:text-ink">
                 Back to home
@@ -508,7 +510,7 @@ export function Book({ s }: { s: BookSection }) {
               </div>
               <div className="mt-5 flex items-center justify-between gap-3">
                 <span className="font-mono text-[11px] tracking-[.14em] text-ink/55">{stepLabel}</span>
-                <span className="font-mono text-[11px] text-ink/55">PKT · GMT+5</span>
+                <span className="font-mono text-[11px] text-ink/55">YOUR TIME · {tzLabel}</span>
               </div>
               <div className="mt-[18px] flex items-center justify-between">
                 <span className="font-display text-[22px] font-semibold tracking-[-.02em]">
@@ -592,7 +594,7 @@ export function Book({ s }: { s: BookSection }) {
                     setError("");
                     submitLead(audience === "agency" ? "apply" : "demo", e.currentTarget, {
                       audience,
-                      preferredSlot: `${longDate} ${time} PKT`,
+                      preferredSlot: `${longDate} ${time} (${tzLabel})`,
                     })
                       .then(() => setDone(true))
                       .catch((err: Error) => setError(err.message))

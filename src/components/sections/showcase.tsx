@@ -476,11 +476,11 @@ export function WorkflowAnim({ s, band, num }: { s: WorkflowAnimSection; band: B
 }
 
 const dbConvos = [
-  ["instagram", "Sana K.", "yes please, and can I get it in M", "YOU"],
-  ["whatsapp", "Ali R.", "2 pieces chahiye", "AI"],
-  ["shopify", "Mehwish", "Is medium in stock?", "AI"],
-  ["messenger", "Bilal R.", "#1987", "HANDOFF"],
-  ["whatsapp", "Hamza", "COD available?", "AI"],
+  ["whatsapp", "Sana K.", "yes please, and can I get it in M", "YOU"],
+  ["whatsapp", "Maria G.", "I'd like 2 of the linen shirts", "AI"],
+  ["web", "James", "Is medium in stock?", "AI"],
+  ["telegram", "Bilal R.", "#1987", "HANDOFF"],
+  ["whatsapp", "Lucas", "Do you take card payments?", "AI"],
 ];
 
 export function DarkBand({ s, num }: { s: DarkBandSection; num: string }) {
@@ -555,13 +555,13 @@ export function DarkBand({ s, num }: { s: DarkBandSection; num: string }) {
                   <span className="grid size-10 place-items-center rounded-full bg-peach font-bold text-ink">SK</span>
                   <span>
                     <span className="block font-semibold">Sana Khan</span>
-                    <span className="block text-[12.5px] text-paper/55">Lahore · 4 orders</span>
+                    <span className="block text-[12.5px] text-paper/55">Manchester · 4 orders</span>
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <span className="rounded-xl border border-paper/10 p-2.5">
                     <span className="block font-mono text-[9.5px] text-paper/45">LIFETIME</span>
-                    <span className="mt-1 block font-semibold">PKR 18,400</span>
+                    <span className="mt-1 block font-semibold">$412</span>
                   </span>
                   <span className="rounded-xl border border-paper/10 p-2.5">
                     <span className="block font-mono text-[9.5px] text-paper/45">INTENT</span>
@@ -573,7 +573,7 @@ export function DarkBand({ s, num }: { s: DarkBandSection; num: string }) {
                   Reserve size M and add to Friday restock alert
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {["VIP", "RESTOCK", "LAHORE"].map((t) => (
+                  {["VIP", "RESTOCK", "UK"].map((t) => (
                     <span key={t} className="rounded-full border border-paper/18 px-[9px] py-1 font-mono text-[10px]">{t}</span>
                   ))}
                 </div>

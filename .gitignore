@@ -42,3 +42,7 @@ next-env.d.ts
 
 # Website lead submissions (server-side, private)
 /data/
+
+# Remotion video project
+/remotion/node_modules
+/remotion/out

@@ -1,8 +1,8 @@
 export const demoQA: [string, string][] = [
-  ["Do you have the gold kurta in medium?", "Yes, 3 left in medium — PKR 4,500. Want me to hold one?"],
-  ["Do you deliver to Karachi?", "Yes — 2 days, PKR 250 flat. Want me to help you place the order?"],
+  ["Do you have the linen shirt in medium?", "Yes, 3 left in medium — $45. Want me to hold one?"],
+  ["How long is delivery?", "2 working days, and free over $50. Want me to help you place the order?"],
   ["What's your return policy?", "7 days, unworn, with receipt. I can start a return for you."],
-  ["Can someone call me?", "HANDING OFF · WHATSAPP — Sharing this chat with Ali from sales. He'll message you in a minute."],
+  ["Can someone call me?", "HANDING OFF · WHATSAPP — Sharing this chat with Sam from sales. He'll message you in a minute."],
 ];
 /** Index of the demo answer that is a human handoff (rendered in the dark bubble). */
 export const HANDOFF_ANSWER = 3;
@@ -33,19 +33,19 @@ export const stateColors: Record<ConvoState, string> = {
 
 export const convos: Convo[] = [
   {
-    name: "Sana K.", channel: "WHATSAPP", state: "HUMAN HANDOFF", time: "2m", preview: "Price of the green kurta in M?",
-    thread: [[true, "Price of the green kurta in M?"], [false, "PKR 3,200. I can hold a medium for you."], [true, "I want 2. Can you deliver to DHA by Friday?"], [false, "Let me get Ali to confirm Friday delivery — one moment."]],
-    panel: ["Sana K. · +92 300 •••• 412", "Buy 2 green kurtas, size M", "Asked price, wants 2 units, needs delivery by Friday", "Quoted PKR 3,200 · held 2 × M · captured number", "Confirm Friday delivery to DHA and take payment"],
+    name: "Sana K.", channel: "WHATSAPP", state: "HUMAN HANDOFF", time: "2m", preview: "Price of the green linen shirt in M?",
+    thread: [[true, "Price of the green linen shirt in M?"], [false, "$39. I can hold a medium for you."], [true, "I want 2. Can you deliver by Friday?"], [false, "Let me get Sam to confirm Friday delivery — one moment."]],
+    panel: ["Sana K. · +44 7700 •••• 412", "Buy 2 green linen shirts, size M", "Asked price, wants 2 units, needs delivery by Friday", "Quoted $39 · held 2 × M · captured number", "Confirm Friday delivery and take payment"],
   },
   {
-    name: "Ahmed Traders", channel: "WEBSITE", state: "QUALIFIED", time: "8m", preview: "We need 50 units wholesale.",
-    thread: [[true, "We need 50 units wholesale."], [false, "Great — which design and by when?"], [true, "Gold kurta, mixed sizes, by the 20th."], [false, "Noted. Wholesale pricing starts at PKR 3,600. Shall I set a call?"]],
-    panel: ["Ahmed Traders · Lahore", "Wholesale order, 50 units", "Gold kurta, mixed sizes, deadline the 20th", "Shared wholesale price · saved as a lead", "Call to confirm size split and quote"],
+    name: "Northwind Traders", channel: "WEBSITE", state: "QUALIFIED", time: "8m", preview: "We need 50 units wholesale.",
+    thread: [[true, "We need 50 units wholesale."], [false, "Great — which design and by when?"], [true, "Linen shirts, mixed sizes, by the 20th."], [false, "Noted. Wholesale pricing starts at $28 a unit. Shall I set a call?"]],
+    panel: ["Northwind Traders · Chicago", "Wholesale order, 50 units", "Linen shirts, mixed sizes, deadline the 20th", "Shared wholesale price · saved as a lead", "Call to confirm size split and quote"],
   },
   {
-    name: "Bilal R.", channel: "WHATSAPP", state: "AI ACTIVE", time: "14m", preview: "Do you deliver to Karachi?",
-    thread: [[true, "Do you deliver to Karachi?"], [false, "Yes — 2 days, PKR 250 flat. Want me to help you place the order?"]],
-    panel: ["Bilal R. · WhatsApp", "Delivery question", "Asked about Karachi delivery", "Answered from delivery policy", "No action needed yet"],
+    name: "Bilal R.", channel: "WHATSAPP", state: "AI ACTIVE", time: "14m", preview: "How long is delivery?",
+    thread: [[true, "How long is delivery?"], [false, "2 working days, and free over $50. Want me to help you place the order?"]],
+    panel: ["Bilal R. · WhatsApp", "Delivery question", "Asked about delivery times", "Answered from delivery policy", "No action needed yet"],
   },
   {
     name: "Maryam S.", channel: "TELEGRAM", state: "NEW", time: "21m", preview: "Is the offer still live?",
@@ -73,8 +73,8 @@ export const metrics: Metric[] = [
 export const chartHeights = [44, 58, 52, 70, 64, 82, 76, 90, 72, 96, 88, 110, 102, 128];
 
 export const insights = [
-  { label: "MOST ASKED", value: "Delivery to Lahore — 212×" },
-  { label: "QUESTIONS NEEDING NEW KNOWLEDGE", value: "Gwadar delivery, gift wrapping" },
+  { label: "MOST ASKED", value: "Delivery times — 212×" },
+  { label: "QUESTIONS NEEDING NEW KNOWLEDGE", value: "Iceland delivery, gift wrapping" },
   { label: "TOP CONVERTING CHANNEL", value: "WhatsApp · 31% to lead" },
   { label: "AI RESOLUTION", value: "1,349 of 1,482" },
   { label: "HUMAN HANDOFFS", value: "92 · avg 3 min to pick up" },
@@ -100,15 +100,6 @@ export const checkItems = [
   "First conversation received",
 ];
 
-export const addons = [
-  { name: "WhatsApp Bot", price: "+PKR 300/mo" },
-  { name: "Instagram DM Bot", price: "+PKR 300/mo" },
-  { name: "Messenger Bot", price: "+PKR 300/mo" },
-  { name: "All three", price: "+PKR 700/mo", featured: true },
-];
 
 
-export function pkr(n: number) {
-  return "PKR " + Math.round(n).toLocaleString("en-US");
-}
 

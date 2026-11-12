@@ -2,6 +2,7 @@ import type { Section } from "@/content/types";
 import { AnalyticsPanel, InboxPanel } from "@/components/product";
 import { SectionHeader } from "@/components/ui";
 import { Hero } from "./Hero";
+import { ProductVideo, ScreenTour, Shot } from "./Screens";
 import { Builder, Contact, ConnectorFlow, Demo, Faq, Pricing, Roi } from "./interactive";
 import { Bento, Cases, DarkBand, Hire, Logos, NumStats, OHero, Proof, Status, Trust, Vs, WorkflowAnim } from "./showcase";
 import { Book, ChannelDemo, Changelog, Help, Jobs, Slider, UseCases, VideoTestimonials } from "./showcase-interactive";
@@ -39,6 +40,9 @@ const alwaysNumbered = new Set<Section["type"]>(["industries", "numstats", "bent
 function SectionView({ s, band, num, path }: { s: Section; band: Band; num: string; path: string }) {
   switch (s.type) {
     case "hero": return <Hero s={s} />;
+    case "screens": return <ScreenTour s={s} band={band} num={num} />;
+    case "shot": return <Shot s={s} band={band} num={num} />;
+    case "video": return <ProductVideo s={s} band={band} num={num} />;
     case "marquee": return <Marquee s={s} />;
     case "problem": return <Problem s={s} band={band} num={num} />;
     case "cards": return <Cards s={s} band={band} num={num} />;

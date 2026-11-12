@@ -530,9 +530,9 @@ export function Pricing({ s }: { s: PricingSection }) {
 
 const contactFields = [
   { label: "NAME", type: "text", ph: "Your name", name: "name", auto: "name" },
-  { label: "EMAIL", type: "email", ph: "you@business.pk", name: "email", auto: "email" },
+  { label: "EMAIL", type: "email", ph: "you@business.com", name: "email", auto: "email" },
   { label: "BUSINESS OR AGENCY", type: "text", ph: "Your business name", name: "company", auto: "organization" },
-  { label: "WHATSAPP NUMBER", type: "tel", ph: "+92 300 0000000", name: "whatsapp", auto: "tel" },
+  { label: "WHATSAPP NUMBER", type: "tel", ph: "+1 555 010 0000", name: "whatsapp", auto: "tel" },
 ];
 
 const fieldClass =
